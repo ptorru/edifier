@@ -5,93 +5,52 @@ Copyright (c) 2021 Pedro M. Torruella N.
 */
 
 use serde::{Deserialize, Serialize};
+use serde::ser::{Serializer, SerializeStruct};
 
+/*
 #[derive(Serialize, Deserialize, Debug)]
-enum Status {
-    WrittenStatus {
-        timestamp: (u32, u32),
-        program: String,
-    },
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-enum CellType {
-    Generic,
-}
-
-// change type for ty
-#[derive(Serialize, Deserialize, Debug)]
-struct CellElement {
-    Name: String,
-    Type: CellType,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-enum LibraryElement {
-    Cell(CellElement),
-}
-
-// Hacer library como otra struct
-// Put elements as lower case
-// use LibraryTy
-
-Library {
-    Name: String,
-    EdifLevel: u32,
-    Technology: String,
-    Cells: Vec<CellElement>,
-    Netlist: Netlist
-},
-
-#[derive(Serialize, Deserialize, Debug)]
-
 enum EdifElements {
     Library {
-        Name: String,
-        EdifLevel: u32,
-        Technology: String,
-        Elements: Vec<LibraryElement>,
+        name: String,
+        edif_evel: u8,
+        technology: String,
+        elements: Vec<i32>,
     },
     Comment(String),
-}
+    Design(String)
+}*/
 
 // shorten names
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 struct Edif {
     design_name: String,
-    design_status: Status,
-    Elements: Vec<EdifElements>,
+    design_status: String,
+    /*    libraries: Vec<EdifElements::Library>,
+    comments: Vec<EdifElements::Comment>,
+    design: Vec<EdifElements::Elements>*/
+}
+
+impl Serialize for Edif {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        // 3 is the number of fields in the struct.
+        let mut state = serializer.serialize_struct("Edif", 2)?;
+        state.serialize_field("design_name", &self.design_name)?;
+        state.serialize_field("design_status", &self.design_status)?;
+        state.end()
+    }
 }
 
 fn main() {
-    //let wrstat = WrittenStatus {timestamp: (2020,9), program: "Program Pedro".to_string()};
-    let stt = Status::WrittenStatus {
-        timestamp: (2020, 9),
-        program: "Program Pedro".to_string(),
-    };
-    let cell = CellElement {
-        Name: "my cell".to_string(),
-        Type: CellType::Generic,
-    };
-    let cell = LibraryElement::Cell(cell);
-    let lib = EdifElements::Library {
-        Name: "my lib".to_string(),
-        EdifLevel: 1,
-        Technology: "NumberDefinition".to_string(),
-        Elements: vec![cell],
-    };
-    let com = EdifElements::Comment("this is a comment for thid design".to_string());
     let point = Edif {
         design_name: "Design name".to_string(),
-        design_status: stt,
-        Elements: vec![lib, com],
+        design_status: "Design status".to_string(),
     };
 
-    // Convert the Point to a JSON string.
-    //let serialized = serde_json::to_string(&point).unwrap();
     let serialized = serde_sexpr::to_string(&point).unwrap();
 
-    // Prints serialized = {"x":1,"y":2}
     println!("serialized = {}", serialized);
 
     // Convert the JSON string back to a Point.
