@@ -53,13 +53,23 @@ impl Serialize for Edif {
     where
         S: Serializer,
     {
+        // 1) Need to count the number of fields we will have on the
+        //    main branch.
+        //
         // 3 is the number of fields in the struct.
-        let mut seq = serializer.serialize_seq(Some(3))?;
+        let mut seq = serializer.serialize_seq(Some(6))?;
         let version = ("edifversion", "2", "0", "0");
         let level = ("edifLevel", 0);
-        let ediftup = ("edif" , &self.design_name , version, level);
-        seq.serialize_element(&ediftup)?;
-        let mytup = ("library", &self.libraries);
+        let kword = ("keywordmap", ("keywordlevel", 0));
+
+        seq.serialize_element("edif")?;
+        seq.serialize_element(&self.design_name)?;
+        seq.serialize_element(&version)?;
+        seq.serialize_element(&level)?;
+        seq.serialize_element(&kword)?;
+
+        let mytup = ("Library", &self.libraries);
+
         seq.serialize_element(&mytup)?;
         //seq.end();
         seq.end()
@@ -68,7 +78,7 @@ impl Serialize for Edif {
 
 fn main() {
     let mut point = Edif {
-        design_name: "Design name".to_string(),
+        design_name: "picoblaze_top".to_string(),
         design_status: "Design status".to_string(),
         libraries: Vec::new(),
         comments: Vec::new(),
