@@ -7,6 +7,10 @@ Copyright (c) 2021 Pedro M. Torruella N.
 use serde::{Deserialize, Serialize};
 use serde::ser::{Serializer, SerializeStruct, SerializeSeq};
 
+use std::env;
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
 
 /*
 #[derive(Serialize, Deserialize, Debug)]
@@ -25,7 +29,6 @@ enum EdifElements {
 #[derive(Deserialize, Debug)]
 struct Edif {
     design_name: String,
-    design_status: String,
     libraries: Vec<u8>,
     comments: Vec<u8>,
     designs: Vec<u8>
@@ -71,15 +74,14 @@ impl Serialize for Edif {
         let mytup = ("Library", &self.libraries);
 
         seq.serialize_element(&mytup)?;
-        //seq.end();
+
         seq.end()
     }
 }
 
 fn main() {
     let mut point = Edif {
-        design_name: "picoblaze_top".to_string(),
-        design_status: "Design status".to_string(),
+        design_name: "dsp_2".to_string(),
         libraries: Vec::new(),
         comments: Vec::new(),
         designs: Vec::new()
@@ -92,6 +94,21 @@ fn main() {
     let serialized = serde_sexpr::to_string(&point).unwrap();
 
     println!("serialized = {}", serialized);
+
+    let path = Path::new("test.edf");
+    let display = path.display();
+
+    // Open a file in write-only mode, returns `io::Result<File>`
+    let mut file = match File::create(&path) {
+        Err(why) => panic!("couldn't create {}: {}", display, why),
+        Ok(file) => file,
+    };
+
+    // Write the `LOREM_IPSUM` string to `file`, returns `io::Result<()>`
+    match file.write_all(serialized.as_bytes()) {
+        Err(why) => panic!("couldn't write to {}: {}", display, why),
+        Ok(_) => println!("successfully wrote to {}", display),
+    }
 
     // Convert the JSON string back to a Point.
     //let deserialized: Edif = serde_sexpr::from_str(&serialized).unwrap();
