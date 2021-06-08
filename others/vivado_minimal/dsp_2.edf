@@ -1,0 +1,67 @@
+(edif dsp_2
+  (edifversion 2 0 0)
+  (edifLevel 0)
+  (keywordmap (keywordlevel 0))
+
+  (Library hdi_primitives
+    (edifLevel 0)
+    (technology (numberDefinition ))
+   (cell LUT2 (celltype GENERIC)
+     (view netlist (viewtype NETLIST)
+       (interface 
+        (port O (direction OUTPUT))
+        (port I0 (direction INPUT))
+        (port I1 (direction INPUT))
+       )
+     )
+   )
+   (cell INV (celltype GENERIC)
+     (view netlist (viewtype NETLIST)
+       (interface
+         (port I (direction INPUT))
+         (port O (direction OUTPUT))
+       )
+     )
+   )
+  )
+  (Library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+   (cell dsp_2 (celltype GENERIC)
+     (view dsp_2 (viewtype NETLIST)
+       (interface 
+        (port a (direction INPUT))
+        (port b (direction INPUT))
+        (port y (direction OUTPUT))
+       )
+       (contents
+         (instance y_INST_0 (viewref netlist (cellref LUT2 (libraryref hdi_primitives)))
+           (property INIT (string "4'h8"))
+         )
+         (net a (joined
+          (portref I0 (instanceref y_INST_0))
+          (portref a)
+          )
+         )
+         (net b (joined
+          (portref I1 (instanceref y_INST_0))
+          (portref b)
+          )
+         )
+         (net y (joined
+          (portref O (instanceref y_INST_0))
+          (portref y)
+          )
+         )
+       )
+
+           (property ECO_CHECKSUM (string "ab17741d"))
+     )
+   )
+  )
+
+  (design dsp_2
+    (cellref dsp_2 (libraryref work))
+    (property part (string "xczu3eg-sbva484-1-e"))
+  )
+)
