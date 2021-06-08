@@ -17,7 +17,7 @@ $(OUT_DIR):
 	mkdir -p $@
 
 clean-logs:
-	rm ./*jou ./*.log
+	rm -rf ./*jou ./*.log
 
 clean:
 	rm -rf $(OUT_DIR)
