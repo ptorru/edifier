@@ -4,34 +4,79 @@ MIT License
 Copyright (c) 2021 Pedro M. Torruella N.
 */
 
-use serde::{Deserialize, Serialize};
-use serde::ser::{Serializer, SerializeStruct, SerializeSeq};
+use serde::{Serialize};
+use serde::ser::{Serializer, SerializeSeq};
 
-use std::env;
-use std::fs::File;
-use std::io::Write;
 use std::path::Path;
 
-/*
-#[derive(Serialize, Deserialize, Debug)]
+use std::fs::File;
+use std::io::Write;
+
+static NETLIST: &str = "netlist";
+static DOFILE: bool = false;
+
+#[derive(Debug)]
+enum DirectionType {
+    Input,
+    Output
+}
+
+
+#[derive(Debug)]
+struct InterfaceElem {
+    name: String,
+    direction: DirectionType
+}
+
+#[derive(Debug)]
+struct Cell {
+    name: String,
+    view: String,
+    //interface: Vec<InterfaceElem> <<< this is wrong!
+}
+
+// pasar a su propio struct y tener los named typs en el enum
+/*pub enum EdifElem {
+    Library(Library),
+    ...
+  }*/
+#[derive(Debug)]
 enum EdifElements {
     Library {
         name: String,
-        edif_evel: u8,
-        technology: String,
-        elements: Vec<i32>,
+        //technology: String,
+        elem: Vec<Cell>,
     },
-    Comment(String),
     Design(String)
-}*/
+}
+
+#[derive(Debug)]
+pub struct Bar {
+    name: String
+}
+
+impl Serialize for Bar{
+    
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(2))?;
+
+        seq.serialize_element("name")?;
+        seq.serialize_element(&self.name)?;
+        seq.end()
+    }
+}
 
 // shorten names
-#[derive(Deserialize, Debug)]
+#[derive(Debug)]
 struct Edif {
     design_name: String,
     libraries: Vec<u8>,
     comments: Vec<u8>,
-    designs: Vec<u8>
+    designs: Vec<u8>,
+    foo: Bar,
 }
 
 /*
@@ -75,21 +120,43 @@ impl Serialize for Edif {
 
         seq.serialize_element(&mytup)?;
 
+        seq.serialize_element(&self.foo)?;
+
         seq.end()
     }
 }
 
 fn main() {
+    //let my_vec: Vec<T> = Vec::new();
+    /*
+    let mut inter: Vec<InterfaceElem> = Vec::new();
+    inter.push(InterfaceElem::new("a", DirectionType::new(DirectionType::Input)));
+
+    let mut mycell = Cell
+ {
+        name: "LUT2",
+        view: NETLIST,
+        interface: inter
+    };
+
+    let mut mycells: Vec<Cell> = Vec::new();
+    mycells.push(mycell);
+
+    let mut mylib = EdifElements::Library {
+        name: "hdi_primitives".to_string(),
+        technology: "numberDefinition".to_string(),
+        elements: mycells
+    };
+*/
     let mut point = Edif {
         design_name: "dsp_2".to_string(),
         libraries: Vec::new(),
         comments: Vec::new(),
-        designs: Vec::new()
+        designs: Vec::new(),
+        foo: Bar{name: "BAAr".to_string()},
     };
 
-    point.libraries.push(5);
-    point.libraries.push(3);
-    point.libraries.push(2);
+    //point.libraries.push(mylib);
 
     let serialized = serde_sexpr::to_string(&point).unwrap();
 
@@ -98,21 +165,17 @@ fn main() {
     let path = Path::new("test.edf");
     let display = path.display();
 
+    if DOFILE {
     // Open a file in write-only mode, returns `io::Result<File>`
-    let mut file = match File::create(&path) {
-        Err(why) => panic!("couldn't create {}: {}", display, why),
-        Ok(file) => file,
-    };
+        let mut file = match File::create(&path) {
+            Err(why) => panic!("couldn't create {}: {}", display, why),
+            Ok(file) => file,
+        };
 
-    // Write the `LOREM_IPSUM` string to `file`, returns `io::Result<()>`
-    match file.write_all(serialized.as_bytes()) {
-        Err(why) => panic!("couldn't write to {}: {}", display, why),
-        Ok(_) => println!("successfully wrote to {}", display),
+        match file.write_all(serialized.as_bytes()) {
+            Err(why) => panic!("couldn't write to {}: {}", display, why),
+            Ok(_) => println!("successfully wrote to {}", display),
+        }
     }
-
-    // Convert the JSON string back to a Point.
-    //let deserialized: Edif = serde_sexpr::from_str(&serialized).unwrap();
-
-    // Prints deserialized = Point { x: 1, y: 2 }
-    //println!("deserialized = {:?}", deserialized);
+    
 }
