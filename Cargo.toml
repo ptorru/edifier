@@ -1,5 +1,5 @@
 [package]
-name = "pedro_edif"
+name = "edifier"
 version = "0.1.0"
 authors = ["Pedro Torruella <ptorru14@gmail.com>"]
 edition = "2018"
