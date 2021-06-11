@@ -71,7 +71,7 @@ pub struct Edif {
     pub libraries: Vec<u8>,
     pub comments: Vec<u8>,
     pub designs: Vec<u8>,
-    pub foo: Bar,
+    //pub foo: Bar,
 }
 
 /*
@@ -115,7 +115,7 @@ impl Serialize for Edif {
 
         seq.serialize_element(&mytup)?;
 
-        seq.serialize_element(&self.foo)?;
+        //seq.serialize_element(&self.foo)?;
 
         seq.end()
     }

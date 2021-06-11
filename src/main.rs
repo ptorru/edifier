@@ -3,9 +3,6 @@ MIT License
 
 Copyright (c) 2021 Pedro M. Torruella N.
 */
-mod edifier;
-use crate::edifier::{Edif, Bar};
-
 use std::path::Path;
 
 use std::fs::File;
@@ -22,7 +19,7 @@ fn main() {
         libraries: Vec::new(),
         comments: Vec::new(),
         designs: Vec::new(),
-        foo: edifier::Bar{name: "BAAr".to_string()},
+        //foo: edifier::Bar{name: "BAAr".to_string()},
     };
 
     //point.libraries.push(mylib);
