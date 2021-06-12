@@ -60,11 +60,9 @@ pub enum EdifElements {
 }
 
 
-
-// shorten names
 #[derive(Debug)]
 pub struct Edif {
-    pub design_name: String,
+    pub name: String,
     pub libraries: Vec<Library>,
     pub comments: Vec<u8>,
     pub designs: Vec<u8>,
@@ -87,12 +85,12 @@ impl Serialize for Edif {
         let kword = ("keywordmap", ("keywordlevel", 0));
 
         seq.serialize_element("edif")?;
-        seq.serialize_element(&self.design_name)?;
+        seq.serialize_element(&self.name)?;
         seq.serialize_element(&version)?;
         seq.serialize_element(&level)?;
         seq.serialize_element(&kword)?;
 
-        if  self.libraries.is_empty() {
+        if  !self.libraries.is_empty() {
             seq.serialize_element(&self.libraries)?;
         }
 

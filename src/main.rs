@@ -15,7 +15,7 @@ static DOFILE: bool = false;
 fn main() {
 
     let point = edifier::Edif {
-        design_name: "dsp_2".to_string(),
+        name: "dsp_2".to_string(),
         libraries: Vec::new(),
         comments: Vec::new(),
         designs: Vec::new(),
