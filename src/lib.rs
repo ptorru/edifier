@@ -9,7 +9,7 @@ use serde::ser::{Serializer, SerializeSeq};
 
 
 
-
+/*
 #[derive(Debug)]
 pub enum DirectionType {
     Input,
@@ -21,48 +21,45 @@ pub enum DirectionType {
 pub struct InterfaceElem {
     name: String,
     direction: DirectionType
-}
+}*/
 
+/*
 #[derive(Debug)]
 pub struct Cell {
     name: String,
     view: String,
     //interface: Vec<InterfaceElem> <<< this is wrong!
-}
+}*/
 
-// pasar a su propio struct y tener los named typs en el enum
-/*pub enum EdifElem {
-    Library(Library),
-    ...
-  }*/
-#[derive(Debug)]
-pub enum EdifElements {
-    Library {
+#[derive (Debug)]
+pub struct Library {
         name: String,
         //technology: String,
-        elem: Vec<Cell>,
-    },
-    Design(String)
+        elem: String,
 }
 
-#[derive(Debug)]
-pub struct Bar {
-    pub name: String
-}
-
-impl Serialize for Bar{
-    
+impl Serialize for Library {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {    
         let mut seq = serializer.serialize_seq(Some(2))?;
 
-        seq.serialize_element("name")?;
+        seq.serialize_element("Library")?;
         seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.elem)?;
         seq.end()
-    }
+    }        
 }
+
+
+#[derive(Debug)]
+pub enum EdifElements {
+    Library(Library),
+    Design(String)
+}
+
+
 
 // shorten names
 #[derive(Debug)]
@@ -74,22 +71,6 @@ pub struct Edif {
     //pub foo: Bar,
 }
 
-/*
-impl<T> Serialize for Vec<T>
-where
-    T: Serialize,
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut seq = serializer.serialize_seq(Some(self.len()))?;
-        for e in self {
-            seq.serialize_element(e)?;
-        }
-        seq.end()
-    }
-}*/
 
 impl Serialize for Edif {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -111,11 +92,10 @@ impl Serialize for Edif {
         seq.serialize_element(&level)?;
         seq.serialize_element(&kword)?;
 
-        let mytup = ("Library", &self.libraries);
+        if  self.libraries.len() != 0 {
+            seq.serialize_element(&self.libraries)?;
+        }
 
-        seq.serialize_element(&mytup)?;
-
-        //seq.serialize_element(&self.foo)?;
 
         seq.end()
     }

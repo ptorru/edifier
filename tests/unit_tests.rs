@@ -10,7 +10,7 @@ fn runs_without_arguments() {
 }*/
 
 #[test]
-fn empty() {
+fn empty_edif() {
     let ed = edifier::Edif {
         design_name: "ed".to_string(),
         libraries: Vec::new(),
@@ -21,5 +21,3 @@ fn empty() {
     let expected = expect![["(edif ed (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)))"]];
     expected.assert_debug_eq(&actual);
 }
-
-
