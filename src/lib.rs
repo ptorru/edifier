@@ -33,9 +33,9 @@ pub struct Cell {
 
 #[derive (Debug)]
 pub struct Library {
-        name: String,
+        pub name: String,
         //technology: String,
-        elem: String,
+        pub elem: String,
 }
 
 impl Serialize for Library {
@@ -65,7 +65,7 @@ pub enum EdifElements {
 #[derive(Debug)]
 pub struct Edif {
     pub design_name: String,
-    pub libraries: Vec<u8>,
+    pub libraries: Vec<Library>,
     pub comments: Vec<u8>,
     pub designs: Vec<u8>,
     //pub foo: Bar,
@@ -92,7 +92,7 @@ impl Serialize for Edif {
         seq.serialize_element(&level)?;
         seq.serialize_element(&kword)?;
 
-        if  self.libraries.len() != 0 {
+        if  self.libraries.is_empty() {
             seq.serialize_element(&self.libraries)?;
         }
 
