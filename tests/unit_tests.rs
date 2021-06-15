@@ -1,6 +1,6 @@
-use std::process::Command;
-use edifier::Edif;
-use expect_test::expect;
+//use std::process::Command;
+//use edifier::Edif;
+
 
 /*
 #[test]
@@ -39,9 +39,9 @@ fn empty_edif() {
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
-    let expected = expect![["(edif ed (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)))"]];
-    expected.assert_debug_eq(&actual);
-    assert_eq!(0, match_check(actual.to_string()));
+    assert_eq!(actual, 
+        "(edif ed (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)))");
+    assert_eq!(match_check(actual), 0);
 }
 
 // Test 2: single library element
@@ -49,7 +49,7 @@ fn empty_edif() {
 fn single_lib() {
     let lib = edifier::Library {
         name: "mylib".to_string(),
-        elem: "(cell LUT2 (celltype GENERIC))".to_string()
+        elem: "cell".to_string()
     };
     let ed = edifier::Edif {
         name: "ed2".to_string(),
@@ -58,7 +58,11 @@ fn single_lib() {
         designs: Vec::new(),
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
-    let expected = expect![["(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib (cell LUT2 (celltype GENERIC)))))"]];
-    expected.assert_debug_eq(&actual);
-    assert_eq!(0, match_check(actual.to_string()));
+
+    assert_eq!(actual,
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib cell)))" );
+    assert_eq!(match_check(actual), 0);
+
 }
+
+
