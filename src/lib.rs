@@ -9,19 +9,87 @@ use serde::ser::{Serializer, SerializeSeq};
 
 
 
-/*
-#[derive(Debug)]
-pub enum DirectionType {
-    Input,
-    Output
-}*/
 
 /* contents -> instance
             -> net
 
             */
 
+#[derive(Debug)]
+pub enum PortDirection {
+    Input,
+    Output,
+}
 
+impl Serialize for PortDirection {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        match self {
+            PortDirection::Input => "INPUT".serialize(serializer),
+            PortDirection::Output => "OUTPUT".serialize(serializer)
+        }
+    }
+}
+
+#[derive(Debug)]
+pub enum PortElements {
+    Direction(PortDirection),
+    //Array(PortArray)
+}
+
+impl Serialize for PortElements {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        match self {
+            PortElements::Direction(dir) => dir.serialize(serializer)
+        }
+    }        
+}
+
+
+#[derive(Debug)]
+pub struct InterfacePort {
+    pub name: String,
+    pub element: PortElements,
+}
+
+impl Serialize for InterfacePort {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"port".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.element)?;
+        seq.end()
+    }        
+}
+
+
+#[derive(Debug)]
+pub struct CellInterface {
+    pub ports: Vec<InterfacePort>,
+}
+
+impl Serialize for CellInterface {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        if  !self.ports.is_empty() {
+            let mut seq = serializer.serialize_seq(Some(1))?;
+            seq.serialize_element(&self.ports)?;
+            seq.end()
+        } else {
+            serializer.serialize_none()
+        }
+    }        
+}
 
 #[derive(Debug)]
 pub struct CellView {
@@ -103,6 +171,7 @@ pub enum EdifElements {
     Library(Library),
     //Design(String)
 }
+
 impl Serialize for EdifElements {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

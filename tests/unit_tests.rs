@@ -87,3 +87,16 @@ fn cellview_empty() {
     assert_eq!(actual, "(view myview (viewtype NETLIST))");
     assert_eq!(match_check(actual), 0);
 }
+
+// Test 5: interface with no elements
+#[test]
+fn interface_empty() {
+    let myinterface = edifier::CellInterface {
+        ports: Vec::new(),
+    };
+    let actual = serde_sexpr::to_string(&myinterface).unwrap();
+    assert_eq!(actual, "()");
+    assert_eq!(match_check(actual), 0);
+}
+
+// Test 6: interface with 2 elements
