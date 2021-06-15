@@ -100,3 +100,22 @@ fn interface_empty() {
 }
 
 // Test 6: interface with 2 elements
+#[test]
+fn interface_some() {
+    let dirin = edifier::PortElements::Direction(edifier::PortDirection::Input);
+    let porta = edifier::InterfacePort{
+            name: "a".to_string(), 
+            element: dirin
+        };
+    let dirin = edifier::PortElements::Direction(edifier::PortDirection::Input);
+    let portb = edifier::InterfacePort{
+            name: "b".to_string(), 
+            element:  dirin
+        };
+    let myinterface = edifier::CellInterface {
+        ports: vec![porta, portb],
+    };
+    let actual = serde_sexpr::to_string(&myinterface).unwrap();
+    assert_eq!(actual, "()");
+    assert_eq!(match_check(actual), 0);
+}
