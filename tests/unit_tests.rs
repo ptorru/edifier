@@ -8,6 +8,7 @@ fn runs_without_arguments() {
     let mut cmd = Command::cargo_bin("ls").unwrap();
     cmd.assert().success();
 }*/
+
 fn match_check(incoming: String) -> i32{
     let mut counter: i32 = 0;
     for c in incoming.chars() { 
@@ -44,10 +45,10 @@ fn empty_edif() {
 
 // Test 2: single library element
 #[test]
-fn single_lib() {
+fn edif_lib() {
     let lib = edifier::Library {
         name: "mylib".to_string(),
-        elem: "cell".to_string()
+        elements: Vec::new(),
     };
     let libelem = edifier::EdifElements::Library(lib);
     let ed = edifier::Edif {
@@ -57,9 +58,32 @@ fn single_lib() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib cell)))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib)))" );
     assert_eq!(match_check(actual), 0);
 
 }
 
+// Test 3: cell with no elements
+#[test]
+fn cell_empty() {
+    let mycell = edifier::Cell {
+        name: "mycell".to_string(),
+        views: Vec::new(),
+    };
+    let actual = serde_sexpr::to_string(&mycell).unwrap();
+    assert_eq!(actual, "(cell mycell (celltype GENERIC))");
+    assert_eq!(match_check(actual), 0);
+}
 
+// Test 4: cell view with no elements
+#[test]
+fn cellview_empty() {
+    let myview = edifier::CellView {
+        name: "myview".to_string(),
+        interfaces: Vec::new(),
+        contents: Vec::new(),
+    };
+    let actual = serde_sexpr::to_string(&myview).unwrap();
+    assert_eq!(actual, "(view myview (viewtype NETLIST))");
+    assert_eq!(match_check(actual), 0);
+}

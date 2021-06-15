@@ -14,28 +14,71 @@ use serde::ser::{Serializer, SerializeSeq};
 pub enum DirectionType {
     Input,
     Output
+}*/
+
+/* contents -> instance
+            -> net
+
+            */
+
+
+
+#[derive(Debug)]
+pub struct CellView {
+    pub name: String,
+    pub interfaces: Vec<u8>,//(InterfaceElem),
+    pub contents: Vec<u8>,//(CellContents),
 }
 
+impl Serialize for CellView {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(4))?;
+        let viewtype = ("viewtype", "NETLIST");
 
-#[derive(Debug)]
-pub struct InterfaceElem {
-    name: String,
-    direction: DirectionType
-}*/
+        seq.serialize_element("view")?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&viewtype)?;
+        if  !self.interfaces.is_empty() {
+            seq.serialize_element(&self.interfaces)?;
+        }
+        if  !self.contents.is_empty() {
+            seq.serialize_element(&self.contents)?;
+        }
+        seq.end()
+    }        
+}
 
-/*
 #[derive(Debug)]
 pub struct Cell {
-    name: String,
-    view: String,
-    //interface: Vec<InterfaceElem> <<< this is wrong!
-}*/
+    pub name: String,
+    pub views: Vec<CellView>,
+}
+
+impl Serialize for Cell {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(4))?;
+        let celltype = ("celltype", "GENERIC");
+
+        seq.serialize_element("cell")?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&celltype)?;
+        if  !self.views.is_empty() {
+            seq.serialize_element(&self.views)?;
+        }
+        seq.end()
+    }        
+}
 
 #[derive (Debug)]
 pub struct Library {
         pub name: String,
-        //technology: String,
-        pub elem: String,
+        pub elements: Vec<Cell>,
 }
 
 impl Serialize for Library {
@@ -43,11 +86,13 @@ impl Serialize for Library {
     where
         S: Serializer,
     {    
-        let mut seq = serializer.serialize_seq(Some(2))?;
+        let mut seq = serializer.serialize_seq(Some(3))?;
 
         seq.serialize_element("Library")?;
         seq.serialize_element(&self.name)?;
-        seq.serialize_element(&self.elem)?;
+        if  !self.elements.is_empty() {
+            seq.serialize_element(&self.elements)?;
+        }
         seq.end()
     }        
 }
