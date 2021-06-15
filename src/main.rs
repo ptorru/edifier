@@ -16,10 +16,7 @@ fn main() {
 
     let point = edifier::Edif {
         name: "dsp_2".to_string(),
-        libraries: Vec::new(),
-        comments: Vec::new(),
-        designs: Vec::new(),
-        //foo: edifier::Bar{name: "BAAr".to_string()},
+        elements: Vec::new(),
     };
 
     //point.libraries.push(mylib);

@@ -56,17 +56,24 @@ impl Serialize for Library {
 #[derive(Debug)]
 pub enum EdifElements {
     Library(Library),
-    Design(String)
+    //Design(String)
+}
+impl Serialize for EdifElements {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        match self {
+            EdifElements::Library(lib) => lib.serialize(serializer)
+        }
+    }        
 }
 
 
 #[derive(Debug)]
 pub struct Edif {
     pub name: String,
-    pub libraries: Vec<Library>,
-    pub comments: Vec<u8>,
-    pub designs: Vec<u8>,
-    //pub foo: Bar,
+    pub elements: Vec<EdifElements>,
 }
 
 
@@ -90,8 +97,8 @@ impl Serialize for Edif {
         seq.serialize_element(&level)?;
         seq.serialize_element(&kword)?;
 
-        if  !self.libraries.is_empty() {
-            seq.serialize_element(&self.libraries)?;
+        if  !self.elements.is_empty() {
+            seq.serialize_element(&self.elements)?;
         }
 
 

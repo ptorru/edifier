@@ -33,9 +33,7 @@ fn match_check(incoming: String) -> i32{
 fn empty_edif() {
     let ed = edifier::Edif {
         name: "ed".to_string(),
-        libraries: Vec::new(),
-        comments: Vec::new(),
-        designs: Vec::new(),
+        elements: Vec::new(),
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
@@ -51,11 +49,10 @@ fn single_lib() {
         name: "mylib".to_string(),
         elem: "cell".to_string()
     };
+    let libelem = edifier::EdifElements::Library(lib);
     let ed = edifier::Edif {
         name: "ed2".to_string(),
-        libraries: vec![lib],
-        comments: Vec::new(),
-        designs: Vec::new(),
+        elements: vec![libelem],
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
