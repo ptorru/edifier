@@ -128,3 +128,16 @@ fn contents_empty() {
     assert_eq!(actual, "");
     assert_eq!(match_check(actual), 0);
 }
+
+//test 8: content instance
+#[test]
+fn contents_instance() {
+    let myinstance = edifier::ContentInstance { name: "lut4".to_string(),
+                                               viewref: "myview".to_string(), 
+                                               cellref: "mycellref".to_string(), 
+                                               libraryref: "mylibref".to_string(),
+                                            };
+    let actual = serde_sexpr::to_string(&myinstance).unwrap();
+    assert_eq!(actual, "(instance lut4 (viewref myview (cellref mycellref (libraryref mylibref))))");
+    assert_eq!(match_check(actual), 0);
+}

@@ -9,12 +9,30 @@ use serde::ser::{Serializer, SerializeSeq};
 
 
 
+#[derive(Debug)]
+// TODO: add support for rename
+pub struct ContentInstance {
+    pub name: String,
+    pub viewref: String,
+    pub cellref: String,
+    pub libraryref: String,
+}
+impl Serialize for ContentInstance {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        let all = ("viewref", &self.viewref, 
+                      ("cellref", &self.cellref, 
+                      ("libraryref", &self.libraryref)));
 
-/* contents -> instance
-            -> net
-
-            */
-
+        seq.serialize_element(&"instance".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&all)?;
+        seq.end()
+    }        
+}
 
 #[derive(Debug)]
 pub enum ContentElement {
