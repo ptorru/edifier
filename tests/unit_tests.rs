@@ -144,11 +144,41 @@ fn contents_instance() {
 
 //test 9: content net
 #[test]
-fn contents_net() {
+fn net_empty() {
     let myinstance = edifier::ContentNet { name: "y".to_string(),
-                                               portrefs: "portshere".to_string(), 
-                                            };
+                                           portrefs: Vec::new(), 
+                                         };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
-    assert_eq!(actual, "(net y portshere)");
+    assert_eq!(actual, "(net y)");
+    assert_eq!(match_check(actual), 0);
+}
+
+//test 10: port referemce
+#[test]
+fn portref() {
+    let myport = edifier::PortRef { name: "y".to_string(),
+                                        instanceref: "myinst".to_string(), 
+                                        };
+    let actual = serde_sexpr::to_string(&myport).unwrap();
+    assert_eq!(actual, "(portref y (instanceref myinst))");
+    assert_eq!(match_check(actual), 0);
+}
+
+//test 11: multiple port referemce
+#[test]
+fn multi_portref() {
+    let myport1 = edifier::PortRef { name: "y".to_string(),
+                                        instanceref: "myinst".to_string(), 
+                                        };
+    let myport2 = edifier::PortRef { name: "x".to_string(),
+                                        instanceref: "".to_string(), 
+                                        };
+
+    let myinstance = edifier::ContentNet { name: "y".to_string(),
+    portrefs: vec![myport1, myport2], 
+    };
+
+    let actual = serde_sexpr::to_string(&myinstance).unwrap();
+    assert_eq!(actual, "(net y (joined (portref y (instanceref myinst)) (portref x )))");
     assert_eq!(match_check(actual), 0);
 }

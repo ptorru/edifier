@@ -8,10 +8,32 @@ use serde::{Serialize};
 use serde::ser::{Serializer, SerializeSeq};
 
 #[derive(Debug)]
+pub struct PortRef {
+    pub name: String,
+    pub instanceref: String
+}
+impl Serialize for PortRef {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"portref".to_string())?;
+        seq.serialize_element(&self.name)?;
+        if  !self.instanceref.is_empty() {
+            let instref = (&"instanceref".to_string(), &self.instanceref);
+            seq.serialize_element(&instref)?;
+        }
+        
+        seq.end()
+    }        
+}
+
+#[derive(Debug)]
 // TODO: add support for rename
 pub struct ContentNet {
     pub name: String,
-    pub portrefs: String,
+    pub portrefs: Vec<PortRef>,
 }
 impl Serialize for ContentNet {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -21,7 +43,19 @@ impl Serialize for ContentNet {
         let mut seq = serializer.serialize_seq(Some(3))?;
         seq.serialize_element(&"net".to_string())?;
         seq.serialize_element(&self.name)?;
-        seq.serialize_element(&self.portrefs)?;
+
+
+        if  !self.portrefs.is_empty() {
+            // TODO: see if we can polish this dirty trick...
+            // TODO: Take out all the scape characters from the string
+            seq.serialize_element(&"(joined".to_string())?;
+
+            for portref in self.portrefs.iter() {
+                seq.serialize_element(&portref)?;
+            }
+            seq.serialize_element(&")".to_string())?;
+        }
+        
         seq.end()
     }        
 }
