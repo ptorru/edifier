@@ -141,3 +141,14 @@ fn contents_instance() {
     assert_eq!(actual, "(instance lut4 (viewref myview (cellref mycellref (libraryref mylibref))))");
     assert_eq!(match_check(actual), 0);
 }
+
+//test 9: content net
+#[test]
+fn contents_net() {
+    let myinstance = edifier::ContentNet { name: "y".to_string(),
+                                               portrefs: "portshere".to_string(), 
+                                            };
+    let actual = serde_sexpr::to_string(&myinstance).unwrap();
+    assert_eq!(actual, "(net y portshere)");
+    assert_eq!(match_check(actual), 0);
+}

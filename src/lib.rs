@@ -7,7 +7,24 @@ Copyright (c) 2021 Pedro M. Torruella N.
 use serde::{Serialize};
 use serde::ser::{Serializer, SerializeSeq};
 
-
+#[derive(Debug)]
+// TODO: add support for rename
+pub struct ContentNet {
+    pub name: String,
+    pub portrefs: String,
+}
+impl Serialize for ContentNet {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {    
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"net".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.portrefs)?;
+        seq.end()
+    }        
+}
 
 #[derive(Debug)]
 // TODO: add support for rename
