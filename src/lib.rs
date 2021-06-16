@@ -26,10 +26,13 @@ impl Serialize for PortDirection {
     where
         S: Serializer,
     {    
+        let mut seq = serializer.serialize_seq(Some(2))?;
+        seq.serialize_element(&"direction".to_string())?;
         match self {
-            PortDirection::Input => "INPUT".serialize(serializer),
-            PortDirection::Output => "OUTPUT".serialize(serializer)
+            PortDirection::Input  => {seq.serialize_element(&"INPUT".to_string())?;},
+            PortDirection::Output => {seq.serialize_element(&"OUTPUT".to_string())?;}
         }
+        seq.end()
     }
 }
 
@@ -82,7 +85,8 @@ impl Serialize for CellInterface {
         S: Serializer,
     {    
         if  !self.ports.is_empty() {
-            let mut seq = serializer.serialize_seq(Some(1))?;
+            let mut seq = serializer.serialize_seq(Some(2))?;
+            seq.serialize_element(&"interface".to_string())?;
             seq.serialize_element(&self.ports)?;
             seq.end()
         } else {

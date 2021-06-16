@@ -116,6 +116,6 @@ fn interface_some() {
         ports: vec![porta, portb],
     };
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
-    assert_eq!(actual, "()");
+    assert_eq!(actual, "(interface (port a (direction INPUT)) (port B (direction INPUT)))");
     assert_eq!(match_check(actual), 0);
 }
