@@ -164,7 +164,7 @@ fn portref() {
     assert_eq!(match_check(actual), 0);
 }
 
-//test 11: multiple port referemce
+//test 11: multiple port reference
 #[test]
 fn multi_portref() {
     let myport1 = edifier::PortRef { name: "y".to_string(),
