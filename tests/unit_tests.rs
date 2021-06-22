@@ -1,6 +1,13 @@
-//use std::process::Command;
-//use edifier::Edif;
+/*
+MIT License
 
+Copyright (c) 2021 Pedro M. Torruella N.
+*/
+
+
+//use std::process::Command;
+//use Edif;
+use edifier::ast::*;
 
 /*
 #[test]
@@ -28,11 +35,10 @@ fn match_check(incoming: String) -> i32{
     counter
 }
 
-
 // Test 1: we should get a minimal edif with no elements
 #[test]
 fn empty_edif() {
-    let ed = edifier::Edif {
+    let ed = Edif {
         name: "ed".to_string(),
         elements: Vec::new(),
     };
@@ -46,12 +52,12 @@ fn empty_edif() {
 // Test 2: single library element
 #[test]
 fn edif_lib() {
-    let lib = edifier::Library {
+    let lib = Library {
         name: "mylib".to_string(),
         elements: Vec::new(),
     };
-    let libelem = edifier::EdifElements::Library(lib);
-    let ed = edifier::Edif {
+    let libelem = EdifElements::Library(lib);
+    let ed = Edif {
         name: "ed2".to_string(),
         elements: vec![libelem],
     };
@@ -66,7 +72,7 @@ fn edif_lib() {
 // Test 3: cell with no elements
 #[test]
 fn cell_empty() {
-    let mycell = edifier::Cell {
+    let mycell = Cell {
         name: "mycell".to_string(),
         views: Vec::new(),
     };
@@ -78,10 +84,10 @@ fn cell_empty() {
 // Test 4: cell view with no elements
 #[test]
 fn cellview_empty() {
-    let myview = edifier::CellView {
+    let myview = CellView {
         name: "myview".to_string(),
-        interface: edifier::CellInterface(Vec::new()) ,
-        contents: edifier::CellContents(Vec::new()),
+        interface: CellInterface(Vec::new()) ,
+        contents: CellContents(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myview).unwrap();
     assert_eq!(actual, "(view myview (viewtype NETLIST))");
@@ -91,7 +97,7 @@ fn cellview_empty() {
 // Test 5: interface with no elements
 #[test]
 fn interface_empty() {
-    let myinterface = edifier::CellInterface(Vec::new());
+    let myinterface = CellInterface(Vec::new());
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
     assert_eq!(actual, "()");
     assert_eq!(match_check(actual), 0);
@@ -100,17 +106,17 @@ fn interface_empty() {
 // Test 6: interface with 2 elements
 #[test]
 fn interface_some() {
-    let dirin = edifier::PortElements::Direction(edifier::PortDirection::Input);
-    let porta = edifier::InterfacePort{
+    let dirin = PortElements::Direction(PortDirection::Input);
+    let porta = InterfacePort{
             name: "a".to_string(), 
             element: dirin
         };
-    let dirin = edifier::PortElements::Direction(edifier::PortDirection::Input);
-    let portb = edifier::InterfacePort{
+    let dirin = PortElements::Direction(PortDirection::Input);
+    let portb = InterfacePort{
             name: "b".to_string(), 
             element:  dirin
         };
-    let myinterface = edifier::CellInterface(vec![porta, portb]);
+    let myinterface = CellInterface(vec![porta, portb]);
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
     assert_eq!(actual, "(interface (port a (direction INPUT)) (port b (direction INPUT)))");
     assert_eq!(match_check(actual), 0);
@@ -119,7 +125,7 @@ fn interface_some() {
 // Test 7: contents  empty
 #[test]
 fn contents_empty() {
-    let mycontent = edifier::CellContents(Vec::new());
+    let mycontent = CellContents(Vec::new());
     let actual = serde_sexpr::to_string(&mycontent).unwrap();
     assert_eq!(actual, "()");
     assert_eq!(match_check(actual), 0);
@@ -128,7 +134,7 @@ fn contents_empty() {
 //test 8: content instance
 #[test]
 fn contents_instance() {
-    let myinstance = edifier::ContentInstance { name: "lut4".to_string(),
+    let myinstance = ContentInstance { name: "lut4".to_string(),
                                                viewref: "myview".to_string(), 
                                                cellref: "mycellref".to_string(), 
                                                libraryref: "mylibref".to_string(),
@@ -141,8 +147,8 @@ fn contents_instance() {
 //test 9: content net
 #[test]
 fn net_empty() {
-    let my_list = edifier::PortList(Vec::new());
-    let myinstance = edifier::ContentNet { name: "y".to_string(),
+    let my_list = PortList(Vec::new());
+    let myinstance = ContentNet { name: "y".to_string(),
                                            portlist: my_list, 
                                          };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
@@ -153,7 +159,7 @@ fn net_empty() {
 //test 10: port referemce
 #[test]
 fn portref() {
-    let myport = edifier::PortRef { name: "y".to_string(),
+    let myport = PortRef { name: "y".to_string(),
                                         instanceref: "myinst".to_string(), 
                                         };
     let actual = serde_sexpr::to_string(&myport).unwrap();
@@ -164,14 +170,14 @@ fn portref() {
 //test 11: multiple port reference
 #[test]
 fn multi_portref() {
-    let myport1 = edifier::PortRef { name: "y".to_string(),
+    let myport1 = PortRef { name: "y".to_string(),
                                         instanceref: "myinst".to_string(), 
                                         };
-    let myport2 = edifier::PortRef { name: "x".to_string(),
+    let myport2 = PortRef { name: "x".to_string(),
                                         instanceref: "".to_string(), 
                                         };
-    let my_list = edifier::PortList(vec![myport1, myport2]);
-    let myinstance = edifier::ContentNet { name: "y".to_string(),
+    let my_list = PortList(vec![myport1, myport2]);
+    let myinstance = ContentNet { name: "y".to_string(),
     portlist: my_list, 
     };
 

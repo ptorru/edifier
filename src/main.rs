@@ -8,13 +8,13 @@ use std::path::Path;
 use std::fs::File;
 use std::io::Write;
 
-
+use edifier::ast::*;
 
 static DOFILE: bool = false;
 
 fn main() {
 
-    let point = edifier::Edif {
+    let point = Edif {
         name: r#"dsp2"#.to_string(),
         elements: Vec::new(),
     };
