@@ -80,7 +80,7 @@ fn cell_empty() {
 fn cellview_empty() {
     let myview = edifier::CellView {
         name: "myview".to_string(),
-        interface: edifier::CellInterface {ports: Vec::new()} ,
+        interface: edifier::CellInterface(Vec::new()) ,
         content: edifier::CellContent { contents: Vec::new() },
     };
     let actual = serde_sexpr::to_string(&myview).unwrap();
@@ -91,9 +91,7 @@ fn cellview_empty() {
 // Test 5: interface with no elements
 #[test]
 fn interface_empty() {
-    let myinterface = edifier::CellInterface {
-        ports: Vec::new(),
-    };
+    let myinterface = edifier::CellInterface(Vec::new());
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
     assert_eq!(actual, "()");
     assert_eq!(match_check(actual), 0);
@@ -112,9 +110,7 @@ fn interface_some() {
             name: "b".to_string(), 
             element:  dirin
         };
-    let myinterface = edifier::CellInterface {
-        ports: vec![porta, portb],
-    };
+    let myinterface = edifier::CellInterface(vec![porta, portb]);
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
     assert_eq!(actual, "(interface (port a (direction INPUT)) (port b (direction INPUT)))");
     assert_eq!(match_check(actual), 0);
