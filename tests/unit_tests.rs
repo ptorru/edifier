@@ -145,9 +145,9 @@ fn contents_instance() {
 //test 9: content net
 #[test]
 fn net_empty() {
-    let myList = edifier::PortList(Vec::new());
+    let my_list = edifier::PortList(Vec::new());
     let myinstance = edifier::ContentNet { name: "y".to_string(),
-                                           portlist: myList, 
+                                           portlist: my_list, 
                                          };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(actual, "(net y)");
@@ -174,9 +174,9 @@ fn multi_portref() {
     let myport2 = edifier::PortRef { name: "x".to_string(),
                                         instanceref: "".to_string(), 
                                         };
-    let myList = edifier::PortList(vec![myport1, myport2]);
+    let my_list = edifier::PortList(vec![myport1, myport2]);
     let myinstance = edifier::ContentNet { name: "y".to_string(),
-    portlist: myList, 
+    portlist: my_list, 
     };
 
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
