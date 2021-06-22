@@ -15,7 +15,7 @@ static DOFILE: bool = false;
 fn main() {
 
     let point = edifier::Edif {
-        name: "dsp_2".to_string(),
+        name: r#"dsp2"#.to_string(),
         elements: Vec::new(),
     };
 
