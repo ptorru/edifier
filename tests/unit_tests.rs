@@ -81,7 +81,7 @@ fn cellview_empty() {
     let myview = edifier::CellView {
         name: "myview".to_string(),
         interface: edifier::CellInterface(Vec::new()) ,
-        content: edifier::CellContent { contents: Vec::new() },
+        contents: edifier::CellContents(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myview).unwrap();
     assert_eq!(actual, "(view myview (viewtype NETLIST))");
@@ -119,9 +119,9 @@ fn interface_some() {
 // Test 7: contents  empty
 #[test]
 fn contents_empty() {
-    let mycontent = edifier::CellContent { contents: Vec::new()};
+    let mycontent = edifier::CellContents(Vec::new());
     let actual = serde_sexpr::to_string(&mycontent).unwrap();
-    assert_eq!(actual, "");
+    assert_eq!(actual, "()");
     assert_eq!(match_check(actual), 0);
 }
 
