@@ -255,7 +255,8 @@ impl Serialize for CellView {
     where
         S: Serializer,
     {    
-        let mut seq = serializer.serialize_seq(Some(4))?;
+        let local_size = 2 + self.interface.len() + 1;
+        let mut seq = serializer.serialize_seq(Some(local_size))?;
         let viewtype = ("viewtype", "NETLIST");
 
         seq.serialize_element("view")?;
