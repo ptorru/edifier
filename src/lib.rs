@@ -36,6 +36,10 @@ impl PortList {
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
 }
 
 impl Serialize for PortList {
@@ -43,7 +47,7 @@ impl Serialize for PortList {
     where
         S: Serializer,
     {
-        let mut seq = serializer.serialize_seq(Some(self.0.len() + 1))?;
+        let mut seq = serializer.serialize_seq(Some(self.len() + 1))?;
         seq.serialize_element(&"joined".to_string())?;
         for portref in self.0.iter() {
             seq.serialize_element(&portref)?;
