@@ -176,6 +176,6 @@ fn multi_portref() {
     };
 
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
-    assert_eq!(actual, "(net y (joined (portref y (instanceref myinst)) (portref x )))");
+    assert_eq!(actual, "(net y (joined (portref y (instanceref myinst)) (portref x)))");
     assert_eq!(match_check(actual), 0);
 }
