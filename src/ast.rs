@@ -3,15 +3,16 @@ MIT License
 
 Copyright (c) 2021 Pedro M. Torruella N.
 */
+use derive_more::{Deref,DerefMut};
 
-
+// TODO: add member
 #[derive(Debug)]
 pub struct PortRef {
     pub name: String,
     pub instanceref: String
 }
 
-#[derive(Debug)]
+#[derive(Debug,Deref,DerefMut)]
 pub struct PortList (pub Vec<PortRef>);
 
 #[derive(Debug)]
@@ -36,7 +37,7 @@ pub enum ContentElement {
     Net,
 }
 
-#[derive(Debug)]
+#[derive(Debug,Deref,DerefMut)]
 pub struct CellContents (pub Vec<ContentElement>);
 
 #[derive(Debug)]
@@ -57,7 +58,7 @@ pub struct InterfacePort {
     pub element: PortElements,
 }
 
-#[derive(Debug)]
+#[derive(Debug,Deref,DerefMut)]
 pub struct CellInterface(pub Vec<InterfacePort>);
 
 #[derive(Debug)]
