@@ -4,7 +4,6 @@ MIT License
 Copyright (c) 2021 Pedro M. Torruella N.
 */
 
-
 //use std::process::Command;
 //use Edif;
 use edifier::ast::*;
@@ -16,20 +15,18 @@ fn runs_without_arguments() {
     cmd.assert().success();
 }*/
 
-fn match_check(incoming: String) -> i32{
+fn match_check(incoming: String) -> i32 {
     let mut counter: i32 = 0;
-    for c in incoming.chars() { 
+    for c in incoming.chars() {
         if c == '(' {
             counter = counter + 1;
-        }
-        else if c == ')' {
+        } else if c == ')' {
             counter = counter - 1;
         }
     }
     if counter > 0 {
         println!("ERROR: Too many left parentheses.");
-    }
-    else if counter < 0 {
+    } else if counter < 0 {
         println!("ERROR: Too many right parentheses.")
     }
     counter
@@ -44,8 +41,10 @@ fn empty_edif() {
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
-    assert_eq!(actual, 
-        "(edif ed (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)))");
+    assert_eq!(
+        actual,
+        "(edif ed (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)))"
+    );
     assert_eq!(match_check(actual), 0);
 }
 
@@ -66,7 +65,6 @@ fn edif_lib() {
     assert_eq!(actual,
         "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib)))" );
     assert_eq!(match_check(actual), 0);
-
 }
 
 // Test 3: cell with no elements
@@ -86,7 +84,7 @@ fn cell_empty() {
 fn cellview_empty() {
     let myview = CellView {
         name: "myview".to_string(),
-        interface: CellInterface(Vec::new()) ,
+        interface: CellInterface(Vec::new()),
         contents: CellContents(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myview).unwrap();
@@ -107,18 +105,21 @@ fn interface_empty() {
 #[test]
 fn interface_some() {
     let dirin = PortElements::Direction(PortDirection::Input);
-    let porta = InterfacePort{
-            name: "a".to_string(), 
-            element: dirin
-        };
+    let porta = InterfacePort {
+        name: "a".to_string(),
+        element: dirin,
+    };
     let dirin = PortElements::Direction(PortDirection::Input);
-    let portb = InterfacePort{
-            name: "b".to_string(), 
-            element:  dirin
-        };
+    let portb = InterfacePort {
+        name: "b".to_string(),
+        element: dirin,
+    };
     let myinterface = CellInterface(vec![porta, portb]);
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
-    assert_eq!(actual, "(interface (port a (direction INPUT)) (port b (direction INPUT)))");
+    assert_eq!(
+        actual,
+        "(interface (port a (direction INPUT)) (port b (direction INPUT)))"
+    );
     assert_eq!(match_check(actual), 0);
 }
 
@@ -134,13 +135,17 @@ fn contents_empty() {
 //test 8: content instance
 #[test]
 fn contents_instance() {
-    let myinstance = ContentInstance { name: "lut4".to_string(),
-                                               viewref: "myview".to_string(), 
-                                               cellref: "mycellref".to_string(), 
-                                               libraryref: "mylibref".to_string(),
-                                            };
+    let myinstance = ContentInstance {
+        name: "lut4".to_string(),
+        viewref: "myview".to_string(),
+        cellref: "mycellref".to_string(),
+        libraryref: "mylibref".to_string(),
+    };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
-    assert_eq!(actual, "(instance lut4 (viewref myview (cellref mycellref (libraryref mylibref))))");
+    assert_eq!(
+        actual,
+        "(instance lut4 (viewref myview (cellref mycellref (libraryref mylibref))))"
+    );
     assert_eq!(match_check(actual), 0);
 }
 
@@ -148,9 +153,10 @@ fn contents_instance() {
 #[test]
 fn net_empty() {
     let my_list = PortList(Vec::new());
-    let myinstance = ContentNet { name: "y".to_string(),
-                                           portlist: my_list, 
-                                         };
+    let myinstance = ContentNet {
+        name: "y".to_string(),
+        portlist: my_list,
+    };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(actual, "(net y)");
     assert_eq!(match_check(actual), 0);
@@ -159,9 +165,10 @@ fn net_empty() {
 //test 10: port referemce
 #[test]
 fn portref() {
-    let myport = PortRef { name: "y".to_string(),
-                                        instanceref: "myinst".to_string(), 
-                                        };
+    let myport = PortRef {
+        name: "y".to_string(),
+        instanceref: "myinst".to_string(),
+    };
     let actual = serde_sexpr::to_string(&myport).unwrap();
     assert_eq!(actual, "(portref y (instanceref myinst))");
     assert_eq!(match_check(actual), 0);
@@ -170,18 +177,24 @@ fn portref() {
 //test 11: multiple port reference
 #[test]
 fn multi_portref() {
-    let myport1 = PortRef { name: "y".to_string(),
-                                        instanceref: "myinst".to_string(), 
-                                        };
-    let myport2 = PortRef { name: "x".to_string(),
-                                        instanceref: "".to_string(), 
-                                        };
+    let myport1 = PortRef {
+        name: "y".to_string(),
+        instanceref: "myinst".to_string(),
+    };
+    let myport2 = PortRef {
+        name: "x".to_string(),
+        instanceref: "".to_string(),
+    };
     let my_list = PortList(vec![myport1, myport2]);
-    let myinstance = ContentNet { name: "y".to_string(),
-    portlist: my_list, 
+    let myinstance = ContentNet {
+        name: "y".to_string(),
+        portlist: my_list,
     };
 
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
-    assert_eq!(actual, "(net y (joined (portref y (instanceref myinst)) (portref x)))");
+    assert_eq!(
+        actual,
+        "(net y (joined (portref y (instanceref myinst)) (portref x)))"
+    );
     assert_eq!(match_check(actual), 0);
 }

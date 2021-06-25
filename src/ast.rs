@@ -3,17 +3,17 @@ MIT License
 
 Copyright (c) 2021 Pedro M. Torruella N.
 */
-use derive_more::{Deref,DerefMut};
+use derive_more::{Deref, DerefMut};
 
 // TODO: add member
 #[derive(Debug)]
 pub struct PortRef {
     pub name: String,
-    pub instanceref: String
+    pub instanceref: String,
 }
 
-#[derive(Debug,Deref,DerefMut)]
-pub struct PortList (pub Vec<PortRef>);
+#[derive(Debug, Deref, DerefMut)]
+pub struct PortList(pub Vec<PortRef>);
 
 #[derive(Debug)]
 // TODO: add support for rename
@@ -37,8 +37,8 @@ pub enum ContentElement {
     Net,
 }
 
-#[derive(Debug,Deref,DerefMut)]
-pub struct CellContents (pub Vec<ContentElement>);
+#[derive(Debug, Deref, DerefMut)]
+pub struct CellContents(pub Vec<ContentElement>);
 
 #[derive(Debug)]
 pub enum PortDirection {
@@ -58,7 +58,7 @@ pub struct InterfacePort {
     pub element: PortElements,
 }
 
-#[derive(Debug,Deref,DerefMut)]
+#[derive(Debug, Deref, DerefMut)]
 pub struct CellInterface(pub Vec<InterfacePort>);
 
 #[derive(Debug)]
@@ -74,10 +74,10 @@ pub struct Cell {
     pub views: Vec<CellView>,
 }
 
-#[derive (Debug)]
+#[derive(Debug)]
 pub struct Library {
-        pub name: String,
-        pub elements: Vec<Cell>,
+    pub name: String,
+    pub elements: Vec<Cell>,
 }
 
 #[derive(Debug)]

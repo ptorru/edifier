@@ -13,7 +13,6 @@ use edifier::ast::*;
 static DOFILE: bool = false;
 
 fn main() {
-
     let point = Edif {
         name: r#"dsp2"#.to_string(),
         elements: Vec::new(),
@@ -29,7 +28,7 @@ fn main() {
     let display = path.display();
 
     if DOFILE {
-    // Open a file in write-only mode, returns `io::Result<File>`
+        // Open a file in write-only mode, returns `io::Result<File>`
         let mut file = match File::create(&path) {
             Err(why) => panic!("couldn't create {}: {}", display, why),
             Ok(file) => file,
@@ -40,5 +39,4 @@ fn main() {
             Ok(_) => println!("successfully wrote to {}", display),
         }
     }
-    
 }
