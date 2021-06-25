@@ -33,8 +33,8 @@ pub struct ContentInstance {
 
 #[derive(Debug)]
 pub enum ContentElement {
-    Instance,
-    Net,
+    Instance(ContentInstance),
+    Net(ContentNet),
 }
 
 #[derive(Debug, Deref, DerefMut)]

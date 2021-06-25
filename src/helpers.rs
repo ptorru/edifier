@@ -24,6 +24,18 @@ impl Serialize for PortRef {
     }
 }
 
+impl PortRef {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortRef {
+            name: name.as_ref().to_string(),
+            instanceref: "".to_string(),
+        }
+    }
+}
+
 impl Serialize for PortList {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -77,22 +89,27 @@ impl Serialize for ContentInstance {
     }
 }
 
+impl ContentNet {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        ContentNet {
+            name: name.as_ref().to_string(),
+            portlist: PortList(Vec::new()),
+        }
+    }
+}
+
 impl Serialize for ContentElement {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        let mut seq = serializer.serialize_seq(Some(2))?;
-        seq.serialize_element(&"direction".to_string())?;
         match self {
-            ContentElement::Instance => {
-                seq.serialize_element(&"instance".to_string())?;
-            }
-            ContentElement::Net => {
-                seq.serialize_element(&"net".to_string())?;
-            }
+            ContentElement::Instance(elem) => elem.serialize(serializer),
+            ContentElement::Net(elem) => elem.serialize(serializer),
         }
-        seq.end()
     }
 }
 

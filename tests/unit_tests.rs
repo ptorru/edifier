@@ -152,17 +152,13 @@ fn contents_instance() {
 //test 9: content net
 #[test]
 fn net_empty() {
-    let my_list = PortList(Vec::new());
-    let myinstance = ContentNet {
-        name: "y".to_string(),
-        portlist: my_list,
-    };
+    let myinstance = ContentNet::new("y");
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(actual, "(net y)");
     assert_eq!(match_check(actual), 0);
 }
 
-//test 10: port referemce
+//test 10: port reference
 #[test]
 fn portref() {
     let myport = PortRef {
@@ -196,5 +192,17 @@ fn multi_portref() {
         actual,
         "(net y (joined (portref y (instanceref myinst)) (portref x)))"
     );
+    assert_eq!(match_check(actual), 0);
+}
+
+// Test 12: contents with something inside.
+#[test]
+fn contents_elements() {
+    let mut mycontent = CellContents(Vec::new());
+    mycontent.push(ContentElement::Net(ContentNet::new("a")));
+    mycontent.push(ContentElement::Net(ContentNet::new("b")));
+
+    let actual = serde_sexpr::to_string(&mycontent).unwrap();
+    assert_eq!(actual, "(contents (net a) (net b))");
     assert_eq!(match_check(actual), 0);
 }
