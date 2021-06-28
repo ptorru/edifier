@@ -5,6 +5,18 @@ Copyright (c) 2021 Pedro M. Torruella N.
 */
 use derive_more::{Deref, DerefMut};
 
+#[derive(Debug)]
+pub enum PropertyValue {
+    Integer(i32),
+    String(String),
+}
+
+#[derive(Debug)]
+pub struct Property {
+    pub name: String,
+    pub property: PropertyValue,
+}
+
 // TODO: add member
 #[derive(Debug)]
 pub struct PortRef {

@@ -8,6 +8,44 @@ use crate::ast::*;
 use serde::ser::{SerializeSeq, Serializer};
 use serde::Serialize;
 
+impl Serialize for PropertyValue {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(2))?;
+
+        match self {
+            PropertyValue::Integer(val) => {
+                seq.serialize_element(&"integer".to_string())?;
+                seq.serialize_element(&val)?;
+                seq.end()
+            }
+            PropertyValue::String(val) => {
+                seq.serialize_element(&"string".to_string())?;
+                let mut with_quotes = r#"""#.to_string();
+                with_quotes.push_str(&val);
+                with_quotes.push_str(&r#"""#.to_string());
+                seq.serialize_element(&with_quotes)?;
+                seq.end()
+            }
+        }
+    }
+}
+
+impl Serialize for Property {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"property".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.property)?;
+        seq.end()
+    }
+}
+
 impl Serialize for PortRef {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

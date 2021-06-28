@@ -206,3 +206,32 @@ fn contents_elements() {
     assert_eq!(actual, "(contents (net a) (net b))");
     assert_eq!(match_check(actual), 0);
 }
+
+// Test 13: property values
+#[test]
+fn property_values() {
+    let mypropint = PropertyValue::Integer(42);
+    let actual = serde_sexpr::to_string(&mypropint).unwrap();
+    assert_eq!(actual, "(integer 42)");
+    assert_eq!(match_check(actual), 0);
+
+    let mypropstr = PropertyValue::String("64'h00AA00FF33CC0F00".to_string());
+    let actual = serde_sexpr::to_string(&mypropstr).unwrap();
+    assert_eq!(actual, r#"(string "64'h00AA00FF33CC0F00")"#);
+    assert_eq!(match_check(actual), 0);
+}
+
+// Test 14: property
+#[test]
+fn property_complete() {
+    let mypropval = PropertyValue::String(
+        "256'h0000000000000000000000000000000000000000000000000000000000000000".to_string(),
+    );
+    let myprop = Property{name: "INITP_01".to_string(), property: mypropval};
+    let actual = serde_sexpr::to_string(&myprop).unwrap();
+    assert_eq!(
+        actual,
+        r#"(property INITP_01 (string "256'h0000000000000000000000000000000000000000000000000000000000000000"))"#
+    );
+    assert_eq!(match_check(actual), 0);
+}
