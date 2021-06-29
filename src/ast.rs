@@ -20,10 +20,21 @@ pub struct Property {
 #[derive(Debug, Deref, DerefMut)]
 pub struct PropertyList(pub Vec<Property>);
 
-// TODO: add member
+#[derive(Debug)]
+pub struct PortMember {
+    pub name: String,
+    pub index: u32,
+}
+
+#[derive(Debug)]
+pub enum PortRefToken {
+    Name(String),
+    Member(PortMember),
+}
+
 #[derive(Debug)]
 pub struct PortRef {
-    pub name: String,
+    pub token: PortRefToken,
     pub instanceref: String,
 }
 

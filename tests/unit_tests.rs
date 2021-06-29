@@ -20,7 +20,7 @@ fn match_check(incoming: String) -> i32 {
     let mut counter: i32 = 0;
     for c in incoming.chars() {
         if c == '(' {
-            counter +=  1;
+            counter += 1;
         } else if c == ')' {
             counter -= 1;
         }
@@ -192,7 +192,7 @@ fn net_empty() {
 #[test]
 fn portref() {
     let myport = PortRef {
-        name: "y".to_string(),
+        token: PortRefToken::Name("y".to_string()),
         instanceref: "myinst".to_string(),
     };
     let actual = serde_sexpr::to_string(&myport).unwrap();
@@ -204,11 +204,11 @@ fn portref() {
 #[test]
 fn multi_portref() {
     let myport1 = PortRef {
-        name: "y".to_string(),
+        token: PortRefToken::Name("y".to_string()),
         instanceref: "myinst".to_string(),
     };
     let myport2 = PortRef {
-        name: "x".to_string(),
+        token: PortRefToken::Name("x".to_string()),
         instanceref: "".to_string(),
     };
     let my_list = PortList(vec![myport1, myport2]);

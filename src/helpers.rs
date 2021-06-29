@@ -46,6 +46,40 @@ impl Serialize for Property {
     }
 }
 
+impl Serialize for PortMember {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"member".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.index)?;
+        seq.end()
+    }
+}
+
+impl Serialize for PortRefToken {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            PortRefToken::Name(elem) => elem.serialize(serializer),
+            PortRefToken::Member(elem) => elem.serialize(serializer),
+        }
+    }
+}
+
+impl PortRefToken {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortRefToken::Name(name.as_ref().to_string())
+    }
+}
+
 impl Serialize for PortRef {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -53,7 +87,7 @@ impl Serialize for PortRef {
     {
         let mut seq = serializer.serialize_seq(Some(3))?;
         seq.serialize_element(&"portref".to_string())?;
-        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.token)?;
         if !self.instanceref.is_empty() {
             let instref = (&"instanceref".to_string(), &self.instanceref);
             seq.serialize_element(&instref)?;
@@ -68,7 +102,7 @@ impl PortRef {
         S: AsRef<str>,
     {
         PortRef {
-            name: name.as_ref().to_string(),
+            token: PortRefToken::new(name),
             instanceref: "".to_string(),
         }
     }
