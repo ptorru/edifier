@@ -64,7 +64,7 @@ impl ContentNet {
         S: AsRef<str>,
     {
         ContentNet {
-            token: StringToken::from(Rename{
+            token: StringToken::from(Rename {
                 from: from.as_ref().to_string(),
                 to: to.as_ref().to_string(),
             }),
