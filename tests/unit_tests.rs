@@ -7,6 +7,7 @@ Copyright (c) 2021 Pedro M. Torruella N.
 //use std::process::Command;
 //use Edif;
 use edifier::ast::*;
+use std::cmp::Ordering;
 
 /*
 #[test]
@@ -19,15 +20,15 @@ fn match_check(incoming: String) -> i32 {
     let mut counter: i32 = 0;
     for c in incoming.chars() {
         if c == '(' {
-            counter = counter + 1;
+            counter +=  1;
         } else if c == ')' {
-            counter = counter - 1;
+            counter -= 1;
         }
     }
-    if counter > 0 {
-        println!("ERROR: Too many left parentheses.");
-    } else if counter < 0 {
-        println!("ERROR: Too many right parentheses.")
+    match counter.cmp(&0) {
+        Ordering::Greater => println!("ERROR: Too many left parentheses."),
+        Ordering::Less => println!("ERROR: Too many right parentheses."),
+        Ordering::Equal => (),
     }
     counter
 }
