@@ -66,7 +66,7 @@ fn edif_lib() {
         name: "mylib".to_string(),
         elements: Vec::new(),
     };
-    let libelem = EdifElements::Library(lib);
+    let libelem = EdifElements::from(lib);
     let ed = Edif {
         name: "ed2".to_string(),
         elements: vec![libelem],
@@ -202,7 +202,7 @@ fn net_empty() {
 #[test]
 fn portref() {
     let myport = PortRef {
-        token: PortRefToken::Name("y".to_string()),
+        token: PortRefToken::new("y"),
         instanceref: "myinst".to_string(),
     };
     let actual = serde_sexpr::to_string(&myport).unwrap();
@@ -214,11 +214,11 @@ fn portref() {
 #[test]
 fn multi_portref() {
     let myport1 = PortRef {
-        token: PortRefToken::Name("y".to_string()),
+        token: PortRefToken::new("y"),
         instanceref: "myinst".to_string(),
     };
     let myport2 = PortRef {
-        token: PortRefToken::Name("x".to_string()),
+        token: PortRefToken::new("x"),
         instanceref: "".to_string(),
     };
     let myport3 = PortRef {
@@ -228,11 +228,8 @@ fn multi_portref() {
         }),
         instanceref: "the_inst".to_string(),
     };
-    let my_list = PortList(vec![myport1, myport2, myport3]);
-    let myinstance = ContentNet {
-        name: "y".to_string(),
-        portlist: my_list,
-    };
+    let mut myinstance = ContentNet::new("y");
+    myinstance.portlist = PortList(vec![myport1, myport2, myport3]);
 
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(
@@ -262,7 +259,7 @@ fn property_values() {
     assert_eq!(actual, "(integer 42)");
     assert_eq!(match_check(actual), 0);
 
-    let mypropstr = PropertyValue::String("64'h00AA00FF33CC0F00".to_string());
+    let mypropstr = PropertyValue::from("64'h00AA00FF33CC0F00".to_string());
     let actual = serde_sexpr::to_string(&mypropstr).unwrap();
     assert_eq!(actual, r#"(string "64'h00AA00FF33CC0F00")"#);
     assert_eq!(match_check(actual), 0);
@@ -271,7 +268,7 @@ fn property_values() {
 // Test 14: property
 #[test]
 fn property_complete() {
-    let mypropval = PropertyValue::String(
+    let mypropval = PropertyValue::from(
         "256'h0000000000000000000000000000000000000000000000000000000000000000".to_string(),
     );
     let myprop = Property {

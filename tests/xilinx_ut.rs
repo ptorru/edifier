@@ -53,8 +53,9 @@ pub fn new_lut2() -> Cell {
 (property LOC (string "SLICE_X0Y0"))
 (property BEL (string "A6LUT"))*/
 
-pub fn lut2_prop_ini<S>(val: S) -> Property 
-where S: AsRef<str>,
+pub fn lut2_prop_ini<S>(val: S) -> Property
+where
+    S: AsRef<str>,
 {
     Property {
         name: "INIT".to_string(),
@@ -62,8 +63,9 @@ where S: AsRef<str>,
     }
 }
 
-pub fn lut2_prop_box<S>(val: S) -> Property 
-where S: AsRef<str>,
+pub fn lut2_prop_box<S>(val: S) -> Property
+where
+    S: AsRef<str>,
 {
     Property {
         name: "BOX_TYPE".to_string(),
@@ -71,8 +73,9 @@ where S: AsRef<str>,
     }
 }
 
-pub fn lut2_prop_loc<S>(val: S) -> Property 
-where S: AsRef<str>,
+pub fn lut2_prop_loc<S>(val: S) -> Property
+where
+    S: AsRef<str>,
 {
     Property {
         name: "LOC".to_string(),
@@ -80,8 +83,9 @@ where S: AsRef<str>,
     }
 }
 
-pub fn lut2_prop_bel<S>(val: S) -> Property 
-where S: AsRef<str>,
+pub fn lut2_prop_bel<S>(val: S) -> Property
+where
+    S: AsRef<str>,
 {
     Property {
         name: "BEL".to_string(),
