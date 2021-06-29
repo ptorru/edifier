@@ -73,7 +73,7 @@ fn edif_lib() {
 fn cell_empty() {
     let mycell = Cell {
         name: "mycell".to_string(),
-        views: Vec::new(),
+        views: CellViews(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&mycell).unwrap();
     assert_eq!(actual, "(cell mycell (celltype GENERIC))");

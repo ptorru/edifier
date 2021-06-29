@@ -310,7 +310,9 @@ impl Serialize for Cell {
         seq.serialize_element(&self.name)?;
         seq.serialize_element(&celltype)?;
         if !self.views.is_empty() {
-            seq.serialize_element(&self.views)?;
+            for view in self.views.iter() {
+                seq.serialize_element(&view)?;
+            }
         }
         seq.end()
     }

@@ -95,10 +95,13 @@ pub struct CellView {
     pub contents: CellContents,
 }
 
+#[derive(Debug, Deref, DerefMut)]
+pub struct CellViews(pub Vec<CellView>);
+
 #[derive(Debug)]
 pub struct Cell {
     pub name: String,
-    pub views: Vec<CellView>,
+    pub views: CellViews,
 }
 
 #[derive(Debug)]
