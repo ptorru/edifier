@@ -56,28 +56,28 @@ pub fn new_lut2() -> Cell {
 pub fn lut2_prop_ini(val: String) -> Property {
     Property {
         name: "INIT".to_string(),
-        property: PropertyValue::String(val),
+        property: PropertyValue::from(val),
     }
 }
 
 pub fn lut2_prop_box(val: String) -> Property {
     Property {
         name: "BOX_TYPE".to_string(),
-        property: PropertyValue::String(val),
+        property: PropertyValue::from(val),
     }
 }
 
 pub fn lut2_prop_loc(val: String) -> Property {
     Property {
         name: "LOC".to_string(),
-        property: PropertyValue::String(val),
+        property: PropertyValue::from(val),
     }
 }
 
 pub fn lut2_prop_bel(val: String) -> Property {
     Property {
         name: "BEL".to_string(),
-        property: PropertyValue::String(val),
+        property: PropertyValue::from(val),
     }
 }
 

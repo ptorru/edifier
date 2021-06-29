@@ -13,9 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-use derive_more::{Deref, DerefMut};
+use derive_more::{Deref, DerefMut, From};
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum PropertyValue {
     Integer(i32),
     String(String),
@@ -36,7 +36,7 @@ pub struct PortMember {
     pub index: u32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum PortRefToken {
     Name(String),
     Member(PortMember),
@@ -68,7 +68,7 @@ pub struct ContentInstance {
     pub properties: PropertyList,
 }
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum ContentElement {
     Instance(ContentInstance),
     Net(ContentNet),
@@ -77,13 +77,13 @@ pub enum ContentElement {
 #[derive(Debug, Deref, DerefMut)]
 pub struct CellContents(pub Vec<ContentElement>);
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum PortDirection {
     Input,
     Output,
 }
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum PortElements {
     Direction(PortDirection),
     //Array(PortArray)
@@ -120,7 +120,7 @@ pub struct Library {
     pub elements: Vec<Cell>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum EdifElements {
     Library(Library),
     //Design(String)
