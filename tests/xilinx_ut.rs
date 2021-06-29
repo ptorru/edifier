@@ -15,11 +15,10 @@ fn lut2() {
     //assert_eq!(match_check(actual), 0);
 }
 
-// Test 2: we should get an instance with properties 
+// Test 2: we should get an instance with properties
 //         for a placed lut2 element
 #[test]
 fn lut2_instance() {
-
     let mut proplist = PropertyList(Vec::new());
     proplist.push(lut2_prop_ini("4'h6".to_string()));
     proplist.push(lut2_prop_box("PRIMITIVE".to_string()));

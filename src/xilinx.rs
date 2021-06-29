@@ -38,28 +38,28 @@ pub fn new_lut2() -> Cell {
 (property LOC (string "SLICE_X0Y0"))
 (property BEL (string "A6LUT"))*/
 
-pub fn lut2_prop_ini(val: String) -> Property{
+pub fn lut2_prop_ini(val: String) -> Property {
     Property {
         name: "INIT".to_string(),
         property: PropertyValue::String(val),
     }
 }
 
-pub fn lut2_prop_box(val: String) -> Property{
+pub fn lut2_prop_box(val: String) -> Property {
     Property {
         name: "BOX_TYPE".to_string(),
         property: PropertyValue::String(val),
     }
 }
 
-pub fn lut2_prop_loc(val: String) -> Property{
+pub fn lut2_prop_loc(val: String) -> Property {
     Property {
         name: "LOC".to_string(),
         property: PropertyValue::String(val),
     }
 }
 
-pub fn lut2_prop_bel(val: String) -> Property{
+pub fn lut2_prop_bel(val: String) -> Property {
     Property {
         name: "BEL".to_string(),
         property: PropertyValue::String(val),
