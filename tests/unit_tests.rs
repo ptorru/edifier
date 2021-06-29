@@ -227,7 +227,10 @@ fn property_complete() {
     let mypropval = PropertyValue::String(
         "256'h0000000000000000000000000000000000000000000000000000000000000000".to_string(),
     );
-    let myprop = Property{name: "INITP_01".to_string(), property: mypropval};
+    let myprop = Property {
+        name: "INITP_01".to_string(),
+        property: mypropval,
+    };
     let actual = serde_sexpr::to_string(&myprop).unwrap();
     assert_eq!(
         actual,
