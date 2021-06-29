@@ -171,7 +171,7 @@ impl Serialize for ContentInstance {
         );
 
         seq.serialize_element(&"instance".to_string())?;
-        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.token)?;
         seq.serialize_element(&all)?;
         if !self.properties.is_empty() {
             for prop in self.properties.iter() {

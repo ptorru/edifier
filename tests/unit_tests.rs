@@ -147,7 +147,7 @@ fn contents_empty() {
 #[test]
 fn contents_instance_simple() {
     let myinstance = ContentInstance {
-        name: "lut4".to_string(),
+        token: StringToken::new("lut4"),
         viewref: "myview".to_string(),
         cellref: "mycellref".to_string(),
         libraryref: "mylibref".to_string(),
@@ -175,7 +175,7 @@ fn contents_instance_props() {
         },
     ]);
     let myinstance = ContentInstance {
-        name: "dsp1".to_string(),
+        token: StringToken::new("dsp1"),
         viewref: "myview".to_string(),
         cellref: "mycellref".to_string(),
         libraryref: "mylibref".to_string(),

@@ -64,16 +64,14 @@ pub enum StringToken {
 }
 
 #[derive(Debug)]
-// TODO: add support for rename
 pub struct ContentNet {
     pub token: StringToken,
     pub portlist: PortList,
 }
 
 #[derive(Debug)]
-// TODO: add support for rename
 pub struct ContentInstance {
-    pub name: String,
+    pub token: StringToken,
     pub viewref: String,
     pub cellref: String,
     pub libraryref: String,

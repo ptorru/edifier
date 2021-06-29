@@ -118,7 +118,7 @@ fn lut2_instance() {
     proplist.push(lut2_prop_bel("A6LUT"));
 
     let contents = ContentInstance {
-        name: "i0".to_string(),
+        token: StringToken::new("i0"),
         viewref: "netlist".to_string(),
         cellref: "LUT2".to_string(),
         libraryref: "hdi_primitives".to_string(),
@@ -130,5 +130,34 @@ fn lut2_instance() {
     assert_eq!(
         actual,
         r#"(instance i0 (viewref netlist (cellref LUT2 (libraryref hdi_primitives))) (property INIT (string "4'h6")) (property BOX_TYPE (string "PRIMITIVE")) (property LOC (string "SLICE_X0Y0")) (property BEL (string "A6LUT")))"#
+    );
+}
+
+// Test 3: we should get an instance with properties
+//         for a placed lut2 element, being renamed
+#[test]
+fn lut2_instance_renamed() {
+    let mut proplist = PropertyList(Vec::new());
+    proplist.push(lut2_prop_ini("4'h6"));
+    proplist.push(lut2_prop_box("PRIMITIVE"));
+    proplist.push(lut2_prop_loc("SLICE_X0Y0"));
+    proplist.push(lut2_prop_bel("A6LUT"));
+
+    let contents = ContentInstance {
+        token: StringToken::new_renamed(
+            "address_loop_2__output_data_pc_vector_mux_lut",
+            r#"address_loop[2].output_data.pc_vector_mux_lut"#,
+        ),
+        viewref: "netlist".to_string(),
+        cellref: "LUT2".to_string(),
+        libraryref: "hdi_primitives".to_string(),
+        properties: proplist,
+    };
+
+    let actual = serde_sexpr::to_string(&contents).unwrap();
+
+    assert_eq!(
+        actual,
+        r#"(instance (rename address_loop_2__output_data_pc_vector_mux_lut "address_loop[2].output_data.pc_vector_mux_lut") (viewref netlist (cellref LUT2 (libraryref hdi_primitives))) (property INIT (string "4'h6")) (property BOX_TYPE (string "PRIMITIVE")) (property LOC (string "SLICE_X0Y0")) (property BEL (string "A6LUT")))"#
     );
 }

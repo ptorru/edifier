@@ -72,3 +72,22 @@ impl ContentNet {
         }
     }
 }
+
+impl StringToken {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        StringToken::from(name.as_ref().to_string())
+    }
+
+    pub fn new_renamed<S>(from: S, to: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        StringToken::from(Rename {
+            from: from.as_ref().to_string(),
+            to: to.as_ref().to_string(),
+        })
+    }
+}
