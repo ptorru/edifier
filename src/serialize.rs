@@ -17,6 +17,22 @@ use crate::ast::*;
 use serde::ser::{SerializeSeq, Serializer};
 use serde::Serialize;
 
+impl Serialize for Rename {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"rename".to_string())?;
+        seq.serialize_element(&self.from)?;
+        let mut with_quotes = r#"""#.to_string();
+        with_quotes.push_str(&self.to);
+        with_quotes.push_str(&r#"""#.to_string());
+        seq.serialize_element(&with_quotes)?;
+        seq.end()
+    }
+}
+
 impl Serialize for PropertyValue {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

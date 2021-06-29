@@ -15,6 +15,12 @@ limitations under the License.
 */
 use derive_more::{Deref, DerefMut, From};
 
+#[derive(Debug)]
+pub struct Rename {
+    pub from: String,
+    pub to: String,
+}
+
 #[derive(Debug, From)]
 pub enum PropertyValue {
     Integer(i32),

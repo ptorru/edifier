@@ -15,6 +15,18 @@ limitations under the License.
 */
 use crate::ast::*;
 
+impl Rename {
+    pub fn new<S>(from: S, to: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Rename {
+            from: from.as_ref().to_string(),
+            to: to.as_ref().to_string(),
+        }
+    }
+}
+
 impl PortRefToken {
     pub fn new<S>(name: S) -> Self
     where

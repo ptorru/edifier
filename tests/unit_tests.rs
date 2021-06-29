@@ -282,3 +282,12 @@ fn property_complete() {
     );
     assert_eq!(match_check(actual), 0);
 }
+
+// Test 15: rename
+#[test]
+fn rename() {
+    let myren = Rename::new("my_exp_0", r#"my_exp[0]"#);
+    let actual = serde_sexpr::to_string(&myren).unwrap();
+    assert_eq!(actual, r#"(rename my_exp_0 "my_exp[0]")"#);
+    assert_eq!(match_check(actual), 0);
+}
