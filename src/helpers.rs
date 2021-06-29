@@ -54,7 +54,20 @@ impl ContentNet {
         S: AsRef<str>,
     {
         ContentNet {
-            name: name.as_ref().to_string(),
+            token: StringToken::from(name.as_ref().to_string()),
+            portlist: PortList(Vec::new()),
+        }
+    }
+
+    pub fn new_remaned<S>(from: S, to: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        ContentNet {
+            token: StringToken::from(Rename{
+                from: from.as_ref().to_string(),
+                to: to.as_ref().to_string(),
+            }),
             portlist: PortList(Vec::new()),
         }
     }

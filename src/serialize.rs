@@ -130,6 +130,18 @@ impl Serialize for PortList {
     }
 }
 
+impl Serialize for StringToken {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            StringToken::Name(elem) => elem.serialize(serializer),
+            StringToken::Rename(elem) => elem.serialize(serializer),
+        }
+    }
+}
+
 impl Serialize for ContentNet {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -137,7 +149,7 @@ impl Serialize for ContentNet {
     {
         let mut seq = serializer.serialize_seq(Some(3))?;
         seq.serialize_element(&"net".to_string())?;
-        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.token)?;
 
         if !self.portlist.is_empty() {
             seq.serialize_element(&self.portlist)?;

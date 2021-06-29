@@ -198,6 +198,15 @@ fn net_empty() {
     assert_eq!(match_check(actual), 0);
 }
 
+//test 9.1: content net renamed
+#[test]
+fn net_renamed() {
+    let myinstance = ContentNet::new_remaned("u_u_sad_4", "u_u_sad[4]");
+    let actual = serde_sexpr::to_string(&myinstance).unwrap();
+    assert_eq!(actual, r#"(net (rename u_u_sad_4 "u_u_sad[4]"))"#);
+    assert_eq!(match_check(actual), 0);
+}
+
 //test 10: port reference
 #[test]
 fn portref() {

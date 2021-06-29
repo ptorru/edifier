@@ -57,10 +57,16 @@ pub struct PortRef {
 #[derive(Debug, Deref, DerefMut)]
 pub struct PortList(pub Vec<PortRef>);
 
+#[derive(Debug, From)]
+pub enum StringToken {
+    Name(String),
+    Rename(Rename),
+}
+
 #[derive(Debug)]
 // TODO: add support for rename
 pub struct ContentNet {
-    pub name: String,
+    pub token: StringToken,
     pub portlist: PortList,
 }
 
