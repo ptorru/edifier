@@ -211,7 +211,14 @@ fn multi_portref() {
         token: PortRefToken::Name("x".to_string()),
         instanceref: "".to_string(),
     };
-    let my_list = PortList(vec![myport1, myport2]);
+    let myport3 = PortRef {
+        token: PortRefToken::Member(PortMember {
+            name: "some_other_port_".to_string(),
+            index: 9,
+        }),
+        instanceref: "the_inst".to_string(),
+    };
+    let my_list = PortList(vec![myport1, myport2, myport3]);
     let myinstance = ContentNet {
         name: "y".to_string(),
         portlist: my_list,
@@ -220,7 +227,7 @@ fn multi_portref() {
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(
         actual,
-        "(net y (joined (portref y (instanceref myinst)) (portref x)))"
+        "(net y (joined (portref y (instanceref myinst)) (portref x) (portref (member some_other_port_ 9) (instanceref the_inst))))"
     );
     assert_eq!(match_check(actual), 0);
 }
