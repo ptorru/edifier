@@ -16,19 +16,19 @@ limitations under the License.
 use edifier::ast::*;
 
 pub fn new_lut2() -> Cell {
-    let diro = PortElements::Direction(PortDirection::Output);
+    let diro = PortElements::from(PortDirection::Output);
     let porto = InterfacePort {
         name: "O".to_string(),
         element: diro,
     };
 
-    let dirin = PortElements::Direction(PortDirection::Input);
+    let dirin = PortElements::from(PortDirection::Input);
     let porti0 = InterfacePort {
         name: "I0".to_string(),
         element: dirin,
     };
 
-    let dirin = PortElements::Direction(PortDirection::Input);
+    let dirin = PortElements::from(PortDirection::Input);
     let porti1 = InterfacePort {
         name: "I1".to_string(),
         element: dirin,
@@ -53,31 +53,39 @@ pub fn new_lut2() -> Cell {
 (property LOC (string "SLICE_X0Y0"))
 (property BEL (string "A6LUT"))*/
 
-pub fn lut2_prop_ini(val: String) -> Property {
+pub fn lut2_prop_ini<S>(val: S) -> Property 
+where S: AsRef<str>,
+{
     Property {
         name: "INIT".to_string(),
-        property: PropertyValue::from(val),
+        property: PropertyValue::from(val.as_ref().to_string()),
     }
 }
 
-pub fn lut2_prop_box(val: String) -> Property {
+pub fn lut2_prop_box<S>(val: S) -> Property 
+where S: AsRef<str>,
+{
     Property {
         name: "BOX_TYPE".to_string(),
-        property: PropertyValue::from(val),
+        property: PropertyValue::from(val.as_ref().to_string()),
     }
 }
 
-pub fn lut2_prop_loc(val: String) -> Property {
+pub fn lut2_prop_loc<S>(val: S) -> Property 
+where S: AsRef<str>,
+{
     Property {
         name: "LOC".to_string(),
-        property: PropertyValue::from(val),
+        property: PropertyValue::from(val.as_ref().to_string()),
     }
 }
 
-pub fn lut2_prop_bel(val: String) -> Property {
+pub fn lut2_prop_bel<S>(val: S) -> Property 
+where S: AsRef<str>,
+{
     Property {
         name: "BEL".to_string(),
-        property: PropertyValue::from(val),
+        property: PropertyValue::from(val.as_ref().to_string()),
     }
 }
 
@@ -100,10 +108,10 @@ fn lut2() {
 #[test]
 fn lut2_instance() {
     let mut proplist = PropertyList(Vec::new());
-    proplist.push(lut2_prop_ini("4'h6".to_string()));
-    proplist.push(lut2_prop_box("PRIMITIVE".to_string()));
-    proplist.push(lut2_prop_loc("SLICE_X0Y0".to_string()));
-    proplist.push(lut2_prop_bel("A6LUT".to_string()));
+    proplist.push(lut2_prop_ini("4'h6"));
+    proplist.push(lut2_prop_box("PRIMITIVE"));
+    proplist.push(lut2_prop_loc("SLICE_X0Y0"));
+    proplist.push(lut2_prop_bel("A6LUT"));
 
     let contents = ContentInstance {
         name: "i0".to_string(),
