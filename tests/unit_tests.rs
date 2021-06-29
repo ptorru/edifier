@@ -132,19 +132,48 @@ fn contents_empty() {
     assert_eq!(match_check(actual), 0);
 }
 
-//test 8: content instance
+//test 8: content instance with no properties
 #[test]
-fn contents_instance() {
+fn contents_instance_simple() {
     let myinstance = ContentInstance {
         name: "lut4".to_string(),
         viewref: "myview".to_string(),
         cellref: "mycellref".to_string(),
         libraryref: "mylibref".to_string(),
+        properties: PropertyList(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(
         actual,
         "(instance lut4 (viewref myview (cellref mycellref (libraryref mylibref))))"
+    );
+    assert_eq!(match_check(actual), 0);
+}
+
+//test 8.1: content instance with properties
+#[test]
+fn contents_instance_props() {
+    let props = PropertyList(vec![
+        Property {
+            name: "adjustability".to_string(),
+            property: PropertyValue::Integer(11),
+        },
+        Property {
+            name: "usability".to_string(),
+            property: PropertyValue::String("very_high_please".to_string()),
+        },
+    ]);
+    let myinstance = ContentInstance {
+        name: "dsp1".to_string(),
+        viewref: "myview".to_string(),
+        cellref: "mycellref".to_string(),
+        libraryref: "mylibref".to_string(),
+        properties: props,
+    };
+    let actual = serde_sexpr::to_string(&myinstance).unwrap();
+    assert_eq!(
+        actual,
+        r#"(instance dsp1 (viewref myview (cellref mycellref (libraryref mylibref))) (property adjustability (integer 11)) (property usability (string "very_high_please")))"#
     );
     assert_eq!(match_check(actual), 0);
 }

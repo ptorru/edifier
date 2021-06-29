@@ -113,7 +113,7 @@ impl Serialize for ContentInstance {
     where
         S: Serializer,
     {
-        let mut seq = serializer.serialize_seq(Some(3))?;
+        let mut seq = serializer.serialize_seq(Some(3 + self.properties.len()))?;
         let all = (
             "viewref",
             &self.viewref,
@@ -123,6 +123,11 @@ impl Serialize for ContentInstance {
         seq.serialize_element(&"instance".to_string())?;
         seq.serialize_element(&self.name)?;
         seq.serialize_element(&all)?;
+        if !self.properties.is_empty() {
+            for prop in self.properties.iter() {
+                seq.serialize_element(&prop)?;
+            }
+        }
         seq.end()
     }
 }

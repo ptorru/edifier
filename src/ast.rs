@@ -17,6 +17,9 @@ pub struct Property {
     pub property: PropertyValue,
 }
 
+#[derive(Debug, Deref, DerefMut)]
+pub struct PropertyList(pub Vec<Property>);
+
 // TODO: add member
 #[derive(Debug)]
 pub struct PortRef {
@@ -41,6 +44,7 @@ pub struct ContentInstance {
     pub viewref: String,
     pub cellref: String,
     pub libraryref: String,
+    pub properties: PropertyList,
 }
 
 #[derive(Debug)]
