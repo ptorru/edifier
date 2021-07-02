@@ -75,19 +75,38 @@ where
     }
 }
 
-/*   (cell CARRY8 (celltype GENERIC)
-  (view netlist (viewtype NETLIST)
-    (interface
-     (port CI (direction INPUT))
-     (port CI_TOP (direction INPUT))
-     (port (array (rename CO "CO[7:0]") 8) (direction OUTPUT))
-     (port (array (rename O "O[7:0]") 8) (direction OUTPUT))
-     (port (array (rename DI "DI[7:0]") 8) (direction INPUT))
-     (port (array (rename S "S[7:0]") 8) (direction INPUT))
-    )
-  )
-)*/
-//pub fun carry8
+pub fn carry8() -> Cell {
+    let mut interface = CellInterface(Vec::new());
+
+    interface.push(InterfacePort::new_input("CI"));
+    interface.push(InterfacePort::new_input("CI_TOP"));
+    interface.push(InterfacePort::new(
+        PortToken::new_array("CO", "CO[7:0]", 8),
+        PortDirection::Output,
+    ));
+    interface.push(InterfacePort::new(
+        PortToken::new_array("O", "O[7:0]", 8),
+        PortDirection::Output,
+    ));
+    interface.push(InterfacePort::new(
+        PortToken::new_array("DI", "DI[7:0]", 8),
+        PortDirection::Input,
+    ));
+    interface.push(InterfacePort::new(
+        PortToken::new_array("S", "S[7:0]", 8),
+        PortDirection::Input,
+    ));
+
+    let cellview = CellView {
+        name: "netlist".to_string(),
+        interface,
+        contents: CellContents(Vec::new()),
+    };
+    Cell {
+        name: "CARRY8".to_string(),
+        views: CellViews(vec![cellview]),
+    }
+}
 
 // Test 1: we should get a lut2 element
 #[test]
@@ -156,4 +175,18 @@ fn lut2_instance_renamed() {
         actual,
         r#"(instance (rename address_loop_2__output_data_pc_vector_mux_lut "address_loop[2].output_data.pc_vector_mux_lut") (viewref netlist (cellref LUT2 (libraryref hdi_primitives))) (property INIT (string "4'h6")) (property BOX_TYPE (string "PRIMITIVE")) (property LOC (string "SLICE_X0Y0")) (property BEL (string "A6LUT")))"#
     );
+}
+
+// Test 4: Testing arrays
+#[test]
+fn simple_array() {
+    let ed = carry8();
+
+    let actual = serde_sexpr::to_string(&ed).unwrap();
+
+    assert_eq!(
+        actual,
+        r#"(cell CARRY8 (celltype GENERIC) (view netlist (viewtype NETLIST) (interface (port CI (direction INPUT)) (port CI_TOP (direction INPUT)) (port (array (rename CO "CO[7:0]") 8) (direction OUTPUT)) (port (array (rename O "O[7:0]") 8) (direction OUTPUT)) (port (array (rename DI "DI[7:0]") 8) (direction INPUT)) (port (array (rename S "S[7:0]") 8) (direction INPUT)))))"#
+    );
+    //assert_eq!(match_check(actual), 0);
 }
