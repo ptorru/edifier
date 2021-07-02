@@ -91,3 +91,62 @@ impl StringToken {
         })
     }
 }
+
+impl PortArray {
+    pub fn new<S>(from: S, to: S, len: i32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortArray {
+            rename: Rename::new(from, to),
+            length: len,
+        }
+    }
+}
+
+impl PortToken {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortToken::from(name.as_ref().to_string())
+    }
+
+    // TODO: How to automatically define the type of len
+    //       to be the same time as PortArray.length?
+    pub fn new_array<S>(from: S, to: S, len: i32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortToken::from(PortArray::new(from, to, len))
+    }
+}
+
+impl InterfacePort {
+    pub fn new(porttoken: PortToken, dir: PortDirection) -> Self {
+        InterfacePort {
+            token: porttoken,
+            direction: dir,
+        }
+    }
+
+    pub fn new_input<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        InterfacePort {
+            token: PortToken::new(name),
+            direction: PortDirection::Input,
+        }
+    }
+
+    pub fn new_output<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        InterfacePort {
+            token: PortToken::new(name),
+            direction: PortDirection::Output,
+        }
+    }
+}

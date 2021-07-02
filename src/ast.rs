@@ -94,15 +94,21 @@ pub enum PortDirection {
 }
 
 #[derive(Debug, From)]
-pub enum PortElements {
-    Direction(PortDirection),
-    //Array(PortArray)
+pub struct PortArray {
+    pub rename: Rename,
+    pub length: i32,
+}
+
+#[derive(Debug, From)]
+pub enum PortToken {
+    Name(String),
+    Array(PortArray),
 }
 
 #[derive(Debug)]
 pub struct InterfacePort {
-    pub name: String,
-    pub element: PortElements,
+    pub token: PortToken,
+    pub direction: PortDirection,
 }
 
 #[derive(Debug, Deref, DerefMut)]

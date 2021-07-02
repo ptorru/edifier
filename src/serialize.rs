@@ -232,13 +232,28 @@ impl Serialize for PortDirection {
     }
 }
 
-impl Serialize for PortElements {
+impl Serialize for PortArray {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+
+        seq.serialize_element(&"array".to_string())?;
+        seq.serialize_element(&self.rename)?;
+        seq.serialize_element(&self.length)?;
+        seq.end()
+    }
+}
+
+impl Serialize for PortToken {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         match self {
-            PortElements::Direction(dir) => dir.serialize(serializer),
+            PortToken::Name(name) => name.serialize(serializer),
+            PortToken::Array(array) => array.serialize(serializer),
         }
     }
 }
@@ -250,8 +265,8 @@ impl Serialize for InterfacePort {
     {
         let mut seq = serializer.serialize_seq(Some(3))?;
         seq.serialize_element(&"port".to_string())?;
-        seq.serialize_element(&self.name)?;
-        seq.serialize_element(&self.element)?;
+        seq.serialize_element(&self.token)?;
+        seq.serialize_element(&self.direction)?;
         seq.end()
     }
 }

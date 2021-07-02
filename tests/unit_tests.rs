@@ -115,16 +115,8 @@ fn interface_empty() {
 // Test 6: interface with 2 elements
 #[test]
 fn interface_some() {
-    let dirin = PortElements::Direction(PortDirection::Input);
-    let porta = InterfacePort {
-        name: "a".to_string(),
-        element: dirin,
-    };
-    let dirin = PortElements::Direction(PortDirection::Input);
-    let portb = InterfacePort {
-        name: "b".to_string(),
-        element: dirin,
-    };
+    let porta = InterfacePort::new_input("a");
+    let portb = InterfacePort::new_input("b");
     let myinterface = CellInterface(vec![porta, portb]);
     let actual = serde_sexpr::to_string(&myinterface).unwrap();
     assert_eq!(

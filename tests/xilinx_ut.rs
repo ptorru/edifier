@@ -16,23 +16,11 @@ limitations under the License.
 use edifier::ast::*;
 
 pub fn new_lut2() -> Cell {
-    let diro = PortElements::from(PortDirection::Output);
-    let porto = InterfacePort {
-        name: "O".to_string(),
-        element: diro,
-    };
+    let porto = InterfacePort::new_output("O");
 
-    let dirin = PortElements::from(PortDirection::Input);
-    let porti0 = InterfacePort {
-        name: "I0".to_string(),
-        element: dirin,
-    };
+    let porti0 = InterfacePort::new_input("I0");
 
-    let dirin = PortElements::from(PortDirection::Input);
-    let porti1 = InterfacePort {
-        name: "I1".to_string(),
-        element: dirin,
-    };
+    let porti1 = InterfacePort::new_input("I1");
 
     let interface = CellInterface(vec![porto, porti0, porti1]);
 
@@ -46,12 +34,6 @@ pub fn new_lut2() -> Cell {
         views: CellViews(vec![cellview]),
     }
 }
-
-/*
-(property INIT (string "4'h6"))
-(property BOX_TYPE (string "PRIMITIVE"))
-(property LOC (string "SLICE_X0Y0"))
-(property BEL (string "A6LUT"))*/
 
 pub fn lut2_prop_ini<S>(val: S) -> Property
 where
@@ -92,6 +74,20 @@ where
         property: PropertyValue::from(val.as_ref().to_string()),
     }
 }
+
+/*   (cell CARRY8 (celltype GENERIC)
+  (view netlist (viewtype NETLIST)
+    (interface
+     (port CI (direction INPUT))
+     (port CI_TOP (direction INPUT))
+     (port (array (rename CO "CO[7:0]") 8) (direction OUTPUT))
+     (port (array (rename O "O[7:0]") 8) (direction OUTPUT))
+     (port (array (rename DI "DI[7:0]") 8) (direction INPUT))
+     (port (array (rename S "S[7:0]") 8) (direction INPUT))
+    )
+  )
+)*/
+//pub fun carry8
 
 // Test 1: we should get a lut2 element
 #[test]
