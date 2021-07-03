@@ -136,7 +136,7 @@ fn lut2_instance() {
         token: StringToken::new("i0"),
         viewref: "netlist".to_string(),
         cellref: "LUT2".to_string(),
-        libraryref: "hdi_primitives".to_string(),
+        libraryref: LibraryRef::new("hdi_primitives"),
         properties: proplist,
     };
 
@@ -165,7 +165,7 @@ fn lut2_instance_renamed() {
         ),
         viewref: "netlist".to_string(),
         cellref: "LUT2".to_string(),
-        libraryref: "hdi_primitives".to_string(),
+        libraryref: LibraryRef::new("hdi_primitives"),
         properties: proplist,
     };
 

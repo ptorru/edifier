@@ -22,7 +22,7 @@ pub struct Rename {
     pub to: String,
 }
 
-// TODO: probably create a module to allow these fields to 
+// TODO: probably create a module to allow these fields to
 //       be private
 #[derive(Debug)]
 pub struct GenericRef {
@@ -89,7 +89,7 @@ pub struct ContentInstance {
     pub token: StringToken,
     pub viewref: String,
     pub cellref: String,
-    pub libraryref: String,
+    pub libraryref: LibraryRef,
     pub properties: PropertyList,
 }
 

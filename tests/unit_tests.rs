@@ -142,7 +142,7 @@ fn contents_instance_simple() {
         token: StringToken::new("lut4"),
         viewref: "myview".to_string(),
         cellref: "mycellref".to_string(),
-        libraryref: "mylibref".to_string(),
+        libraryref: LibraryRef::new("mylibref"),
         properties: PropertyList(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
@@ -170,7 +170,7 @@ fn contents_instance_props() {
         token: StringToken::new("dsp1"),
         viewref: "myview".to_string(),
         cellref: "mycellref".to_string(),
-        libraryref: "mylibref".to_string(),
+        libraryref: LibraryRef::new("mylibref"),
         properties: props,
     };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();

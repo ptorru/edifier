@@ -179,7 +179,7 @@ impl Serialize for ContentInstance {
         let all = (
             "viewref",
             &self.viewref,
-            ("cellref", &self.cellref, ("libraryref", &self.libraryref)),
+            ("cellref", &self.cellref, &self.libraryref),
         );
 
         seq.serialize_element(&"instance".to_string())?;
