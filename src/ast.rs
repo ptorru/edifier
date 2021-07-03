@@ -14,12 +14,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 use derive_more::{Deref, DerefMut, From};
+use serde::Serialize;
 
 #[derive(Debug)]
 pub struct Rename {
     pub from: String,
     pub to: String,
 }
+
+// TODO: probably create a module to allow these fields to 
+//       be private
+#[derive(Debug)]
+pub struct GenericRef {
+    pub name: String,
+    pub reference: String,
+}
+
+#[derive(Debug, From, Serialize)]
+pub struct LibraryRef(pub GenericRef);
+
+#[derive(Debug, From, Serialize)]
+pub struct InstanceRef(pub GenericRef);
 
 #[derive(Debug, From)]
 pub enum PropertyValue {

@@ -27,6 +27,36 @@ impl Rename {
     }
 }
 
+impl GenericRef {
+    pub fn new<S>(name: S, reference: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        GenericRef {
+            name: name.as_ref().to_string(),
+            reference: reference.as_ref().to_string(),
+        }
+    }
+}
+
+impl LibraryRef {
+    pub fn new<S>(reference: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        LibraryRef::from(GenericRef::new("libraryref", reference.as_ref()))
+    }
+}
+
+impl InstanceRef {
+    pub fn new<S>(reference: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        InstanceRef::from(GenericRef::new("instanceref", reference.as_ref()))
+    }
+}
+
 impl PortRefToken {
     pub fn new<S>(name: S) -> Self
     where

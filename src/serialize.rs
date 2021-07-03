@@ -33,6 +33,18 @@ impl Serialize for Rename {
     }
 }
 
+impl Serialize for GenericRef {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(2))?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.reference)?;
+        seq.end()
+    }
+}
+
 impl Serialize for PropertyValue {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

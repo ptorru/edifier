@@ -292,3 +292,17 @@ fn rename() {
     assert_eq!(actual, r#"(rename my_exp_0 "my_exp[0]")"#);
     assert_eq!(match_check(actual), 0);
 }
+
+// Test 16: References
+#[test]
+fn references() {
+    let libref = LibraryRef::new("anew_libref");
+    let actual = serde_sexpr::to_string(&libref).unwrap();
+    assert_eq!(actual, r#"(libraryref anew_libref)"#);
+    assert_eq!(match_check(actual), 0);
+
+    let instref = InstanceRef::new("anew_instance");
+    let actual = serde_sexpr::to_string(&instref).unwrap();
+    assert_eq!(actual, r#"(instanceref anew_instance)"#);
+    assert_eq!(match_check(actual), 0);
+}
