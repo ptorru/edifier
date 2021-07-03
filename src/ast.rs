@@ -85,11 +85,16 @@ pub struct ContentNet {
 }
 
 #[derive(Debug)]
+pub struct CellRef {
+    pub name: String,
+    pub libraryref: LibraryRef,
+}
+
+#[derive(Debug)]
 pub struct ContentInstance {
     pub token: StringToken,
     pub viewref: String,
-    pub cellref: String,
-    pub libraryref: LibraryRef,
+    pub cellref: CellRef,
     pub properties: PropertyList,
 }
 

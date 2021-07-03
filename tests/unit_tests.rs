@@ -141,8 +141,7 @@ fn contents_instance_simple() {
     let myinstance = ContentInstance {
         token: StringToken::new("lut4"),
         viewref: "myview".to_string(),
-        cellref: "mycellref".to_string(),
-        libraryref: LibraryRef::new("mylibref"),
+        cellref: CellRef::new("mycellref", "mylibref"),
         properties: PropertyList(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
@@ -169,8 +168,7 @@ fn contents_instance_props() {
     let myinstance = ContentInstance {
         token: StringToken::new("dsp1"),
         viewref: "myview".to_string(),
-        cellref: "mycellref".to_string(),
-        libraryref: LibraryRef::new("mylibref"),
+        cellref: CellRef::new("mycellref", "mylibref"),
         properties: props,
     };
     let actual = serde_sexpr::to_string(&myinstance).unwrap();

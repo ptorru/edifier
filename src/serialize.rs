@@ -170,17 +170,26 @@ impl Serialize for ContentNet {
     }
 }
 
+impl Serialize for CellRef {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+        seq.serialize_element(&"cellref".to_string())?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.libraryref)?;
+        seq.end()
+    }
+}
+
 impl Serialize for ContentInstance {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         let mut seq = serializer.serialize_seq(Some(3 + self.properties.len()))?;
-        let all = (
-            "viewref",
-            &self.viewref,
-            ("cellref", &self.cellref, &self.libraryref),
-        );
+        let all = ("viewref", &self.viewref, &self.cellref);
 
         seq.serialize_element(&"instance".to_string())?;
         seq.serialize_element(&self.token)?;

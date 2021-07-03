@@ -135,8 +135,7 @@ fn lut2_instance() {
     let contents = ContentInstance {
         token: StringToken::new("i0"),
         viewref: "netlist".to_string(),
-        cellref: "LUT2".to_string(),
-        libraryref: LibraryRef::new("hdi_primitives"),
+        cellref: CellRef::new("LUT2", "hdi_primitives"),
         properties: proplist,
     };
 
@@ -164,8 +163,7 @@ fn lut2_instance_renamed() {
             r#"address_loop[2].output_data.pc_vector_mux_lut"#,
         ),
         viewref: "netlist".to_string(),
-        cellref: "LUT2".to_string(),
-        libraryref: LibraryRef::new("hdi_primitives"),
+        cellref: CellRef::new("LUT2", "hdi_primitives"),
         properties: proplist,
     };
 

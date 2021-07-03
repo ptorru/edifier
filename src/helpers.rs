@@ -57,6 +57,18 @@ impl InstanceRef {
     }
 }
 
+impl CellRef {
+    pub fn new<S>(name: S, libref: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        CellRef {
+            name: name.as_ref().to_string(),
+            libraryref: LibraryRef::new(libref),
+        }
+    }
+}
+
 impl PortRefToken {
     pub fn new<S>(name: S) -> Self
     where
