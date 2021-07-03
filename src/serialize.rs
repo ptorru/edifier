@@ -117,8 +117,7 @@ impl Serialize for PortRef {
         seq.serialize_element(&"portref".to_string())?;
         seq.serialize_element(&self.token)?;
         if !self.instanceref.is_empty() {
-            let instref = (&"instanceref".to_string(), &self.instanceref);
-            seq.serialize_element(&instref)?;
+            seq.serialize_element(&self.instanceref)?
         }
         seq.end()
     }

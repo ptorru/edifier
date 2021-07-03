@@ -202,7 +202,7 @@ fn net_renamed() {
 fn portref() {
     let myport = PortRef {
         token: PortRefToken::new("y"),
-        instanceref: "myinst".to_string(),
+        instanceref: InstanceRef::new("myinst"),
     };
     let actual = serde_sexpr::to_string(&myport).unwrap();
     assert_eq!(actual, "(portref y (instanceref myinst))");
@@ -214,18 +214,18 @@ fn portref() {
 fn multi_portref() {
     let myport1 = PortRef {
         token: PortRefToken::new("y"),
-        instanceref: "myinst".to_string(),
+        instanceref: InstanceRef::new("myinst"),
     };
     let myport2 = PortRef {
         token: PortRefToken::new("x"),
-        instanceref: "".to_string(),
+        instanceref: InstanceRef::new(""),
     };
     let myport3 = PortRef {
         token: PortRefToken::Member(PortMember {
             name: "some_other_port_".to_string(),
             index: 9,
         }),
-        instanceref: "the_inst".to_string(),
+        instanceref: InstanceRef::new("the_inst"),
     };
     let mut myinstance = ContentNet::new("y");
     myinstance.portlist = PortList(vec![myport1, myport2, myport3]);

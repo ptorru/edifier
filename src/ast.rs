@@ -66,7 +66,7 @@ pub enum PortRefToken {
 #[derive(Debug)]
 pub struct PortRef {
     pub token: PortRefToken,
-    pub instanceref: String,
+    pub instanceref: InstanceRef,
 }
 
 #[derive(Debug, Deref, DerefMut)]

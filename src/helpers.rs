@@ -37,6 +37,10 @@ impl GenericRef {
             reference: reference.as_ref().to_string(),
         }
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.reference.is_empty()
+    }
 }
 
 impl LibraryRef {
@@ -46,6 +50,10 @@ impl LibraryRef {
     {
         LibraryRef::from(GenericRef::new("libraryref", reference.as_ref()))
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.reference.is_empty()
+    }
 }
 
 impl InstanceRef {
@@ -54,6 +62,10 @@ impl InstanceRef {
         S: AsRef<str>,
     {
         InstanceRef::from(GenericRef::new("instanceref", reference.as_ref()))
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.reference.is_empty()
     }
 }
 
@@ -108,7 +120,17 @@ impl PortRef {
     {
         PortRef {
             token: PortRefToken::new(name),
-            instanceref: "".to_string(),
+            instanceref: InstanceRef::new(""),
+        }
+    }
+
+    pub fn new_with_ref<S>(name: S, instref: InstanceRef) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortRef {
+            token: PortRefToken::new(name),
+            instanceref: instref,
         }
     }
 }
@@ -121,6 +143,16 @@ impl ContentNet {
         ContentNet {
             token: StringToken::from(name.as_ref().to_string()),
             portlist: PortList(Vec::new()),
+        }
+    }
+
+    pub fn new_with_ports<S>(name: S, ports: PortList) -> Self
+    where
+        S: AsRef<str>,
+    {
+        ContentNet {
+            token: StringToken::from(name.as_ref().to_string()),
+            portlist: ports,
         }
     }
 
