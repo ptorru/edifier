@@ -69,6 +69,29 @@ impl CellRef {
     }
 }
 
+impl Property {
+    // TODO: is there a way to have a single def of new for multiple types?
+    pub fn new_integer<S>(name: S, val: i32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Property {
+            name: name.as_ref().to_string(),
+            property: PropertyValue::from(val),
+        }
+    }
+
+    pub fn new_string<S>(name: S, val: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Property {
+            name: name.as_ref().to_string(),
+            property: PropertyValue::from(val.as_ref().to_string()),
+        }
+    }
+}
+
 impl PortRefToken {
     pub fn new<S>(name: S) -> Self
     where
@@ -189,6 +212,30 @@ impl InterfacePort {
         InterfacePort {
             token: PortToken::new(name),
             direction: PortDirection::Output,
+        }
+    }
+}
+
+impl Design {
+    pub fn new<S>(name: S, cell: CellRef) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Design {
+            name: name.as_ref().to_string(),
+            cellref: cell,
+            properties: PropertyList::from(Vec::new()),
+        }
+    }
+
+    pub fn new_with_prop<S>(name: S, cell: CellRef, props: PropertyList) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Design {
+            name: name.as_ref().to_string(),
+            cellref: cell,
+            properties: props,
         }
     }
 }

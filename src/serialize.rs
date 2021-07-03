@@ -374,6 +374,25 @@ impl Serialize for Library {
     }
 }
 
+impl Serialize for Design {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(3))?;
+
+        seq.serialize_element("design")?;
+        seq.serialize_element(&self.name)?;
+        seq.serialize_element(&self.cellref)?;
+        if !self.properties.is_empty() {
+            for prop in self.properties.iter() {
+                seq.serialize_element(&prop)?;
+            }
+        }
+        seq.end()
+    }
+}
+
 impl Serialize for EdifElements {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -381,6 +400,7 @@ impl Serialize for EdifElements {
     {
         match self {
             EdifElements::Library(lib) => lib.serialize(serializer),
+            EdifElements::Design(des) => des.serialize(serializer),
         }
     }
 }

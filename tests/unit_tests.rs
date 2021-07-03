@@ -304,3 +304,35 @@ fn references() {
     assert_eq!(actual, r#"(instanceref anew_instance)"#);
     assert_eq!(match_check(actual), 0);
 }
+
+// Test 17: Designs
+#[test]
+fn design_empty() {
+    let design = Design::new("mydesign", CellRef::new("LUT4", "hdi_primitives"));
+    let actual = serde_sexpr::to_string(&design).unwrap();
+    assert_eq!(
+        actual,
+        r#"(design mydesign (cellref LUT4 (libraryref hdi_primitives)))"#
+    );
+    assert_eq!(match_check(actual), 0);
+}
+
+// Test 18: Designs with properties
+#[test]
+fn design_props() {
+    let mut proplist = PropertyList(Vec::new());
+    proplist.push(Property::new_string(
+        "XLNX_PROJ_DIR",
+        "/home/clavin/testRW/picoblaze",
+    ));
+    proplist.push(Property::new_string("part", "xcvu3p-ffvc1517-2-i"));
+
+    let design =
+        Design::new_with_prop("mydesign", CellRef::new("LUT4", "hdi_primitives"), proplist);
+    let actual = serde_sexpr::to_string(&design).unwrap();
+    assert_eq!(
+        actual,
+        r#"(design mydesign (cellref LUT4 (libraryref hdi_primitives)) (property XLNX_PROJ_DIR (string "/home/clavin/testRW/picoblaze")) (property part (string "xcvu3p-ffvc1517-2-i")))"#
+    );
+    assert_eq!(match_check(actual), 0);
+}

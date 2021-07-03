@@ -48,7 +48,7 @@ pub struct Property {
     pub property: PropertyValue,
 }
 
-#[derive(Debug, Deref, DerefMut)]
+#[derive(Debug, Deref, DerefMut, From)]
 pub struct PropertyList(pub Vec<Property>);
 
 #[derive(Debug)]
@@ -156,10 +156,17 @@ pub struct Library {
     pub elements: Vec<Cell>,
 }
 
+#[derive(Debug)]
+pub struct Design {
+    pub name: String,
+    pub cellref: CellRef,
+    pub properties: PropertyList,
+}
+
 #[derive(Debug, From)]
 pub enum EdifElements {
     Library(Library),
-    //Design(String)
+    Design(Design),
 }
 
 #[derive(Debug)]
