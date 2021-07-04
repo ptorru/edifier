@@ -2,6 +2,8 @@ use edifier::ast::*;
 use edifier::string_helpers::add_new_lines;
 
 fn main() {
+    let top_name = "inverter".to_string();
+
     let elems = Cells::from(vec![
         Cell {
             name: "LUT2".to_string(),
@@ -70,9 +72,9 @@ fn main() {
     ));
 
     let inv = Cell {
-        name: "inverter".to_string(),
+        name: top_name.clone(),
         views: CellViews(vec![CellView {
-            name: "inverter".to_string(),
+            name: top_name.clone(),
             interface: CellInterface(vec![
                 InterfacePort::new_input("neta_name".clone()),
                 InterfacePort::new_input("netb_name".clone()),
@@ -87,12 +89,15 @@ fn main() {
         elements: Cells::from(vec![inv]),
     };
 
+    let design_inv = Design::new_with_prop(top_name.clone(), PropertyList(vec![Property::new_string("xczu3eg-sbva484-1-e")]));
+
     let libp = EdifElement::from(lib_prims);
     let libw = EdifElement::from(lib_work);
+    let desi = EdifElement::from(design_inv);
 
     let edif = Edif {
-        name: "inverter".to_string(),
-        elements: EdifElements::from(vec![libp, libw]),
+        name: top_name.clone(),
+        elements: EdifElements::from(vec![libp, libw, desi]),
     };
 
     let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 4, true);
