@@ -363,9 +363,13 @@ impl Serialize for Library {
         S: Serializer,
     {
         let mut seq = serializer.serialize_seq(Some(3))?;
+        let fixed1 = ("edifLevel", "0");
+        let fixed2 = ("technology", r#"(numberDefinition)"#);
 
         seq.serialize_element("Library")?;
         seq.serialize_element(&self.name)?;
+        seq.serialize_element(&fixed1)?;
+        seq.serialize_element(&fixed2)?;
         if !self.elements.is_empty() {
             seq.serialize_element(&self.elements)?;
         }

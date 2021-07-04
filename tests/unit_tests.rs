@@ -17,7 +17,7 @@ limitations under the License.
 //use std::process::Command;
 //use Edif;
 use edifier::ast::*;
-use std::cmp::Ordering;
+use edifier::string_helpers::*;
 
 /*
 #[test]
@@ -25,23 +25,6 @@ fn runs_without_arguments() {
     let mut cmd = Command::cargo_bin("ls").unwrap();
     cmd.assert().success();
 }*/
-
-fn match_check(incoming: String) -> i32 {
-    let mut counter: i32 = 0;
-    for c in incoming.chars() {
-        if c == '(' {
-            counter += 1;
-        } else if c == ')' {
-            counter -= 1;
-        }
-    }
-    match counter.cmp(&0) {
-        Ordering::Greater => println!("ERROR: Too many left parentheses."),
-        Ordering::Less => println!("ERROR: Too many right parentheses."),
-        Ordering::Equal => (),
-    }
-    counter
-}
 
 // Test 1: we should get a minimal edif with no elements
 #[test]
@@ -70,7 +53,7 @@ fn edif_lib() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition ))))" );
     assert_eq!(match_check(actual), 0);
 }
 
