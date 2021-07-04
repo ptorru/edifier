@@ -70,7 +70,7 @@ fn edif_lib() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) ((Library mylib)))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib))" );
     assert_eq!(match_check(actual), 0);
 }
 

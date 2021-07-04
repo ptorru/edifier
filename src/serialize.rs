@@ -425,7 +425,9 @@ impl Serialize for Edif {
         seq.serialize_element(&kword)?;
 
         if !self.elements.is_empty() {
-            seq.serialize_element(&self.elements)?;
+            for elem in self.elements.iter() {
+                seq.serialize_element(&elem)?;
+            }
         }
 
         seq.end()
