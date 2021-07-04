@@ -33,16 +33,40 @@ fn main() {
         elements: elems,
     };
 
+    let yinst0_name = "y_INST_0";
+
     let yinst0 = ContentElement::from(ContentInstance {
-        token: StringToken::new("y_INST_0"),
+        token: StringToken::new(yinst0_name.clone()),
         viewref: "myview".to_string(),
         cellref: CellRef::new("LUT2", "hdi_primitives"),
         properties: PropertyList(vec![Property::new_string("INIT", "4'h8")]),
     });
 
+    let neta_name = "a";
     let neta = ContentElement::from(ContentNet::new_with_ports(
-        "a",
-        PortList(vec![PortRef::new("a")]),
+        neta_name.clone(),
+        PortList(vec![
+            PortRef::new_with_ref("I0", InstanceRef::new(yinst0_name.clone())),
+            PortRef::new(neta_name.clone()),
+        ]),
+    ));
+
+    let netb_name = "b";
+    let netb = ContentElement::from(ContentNet::new_with_ports(
+        netb_name.clone(),
+        PortList(vec![
+            PortRef::new_with_ref("I1", InstanceRef::new(yinst0_name.clone())),
+            PortRef::new(netb_name.clone()),
+        ]),
+    ));
+
+    let nety_name = "y";
+    let nety = ContentElement::from(ContentNet::new_with_ports(
+        nety_name.clone(),
+        PortList(vec![
+            PortRef::new_with_ref("O", InstanceRef::new(yinst0_name.clone())),
+            PortRef::new(nety_name.clone()),
+        ]),
     ));
 
     let inv = Cell {
@@ -50,11 +74,11 @@ fn main() {
         views: CellViews(vec![CellView {
             name: "inverter".to_string(),
             interface: CellInterface(vec![
-                InterfacePort::new_input("a"),
-                InterfacePort::new_input("b"),
-                InterfacePort::new_output("y"),
+                InterfacePort::new_input("neta_name".clone()),
+                InterfacePort::new_input("netb_name".clone()),
+                InterfacePort::new_output("nety_name".clone()),
             ]),
-            contents: CellContents(vec![yinst0, neta]),
+            contents: CellContents(vec![yinst0, neta, netb, nety]),
         }]),
     };
 
