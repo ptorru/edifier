@@ -3,6 +3,7 @@ use edifier::string_helpers::add_new_lines;
 
 fn main() {
     let top_name = "inverter".to_string();
+    let work_name = "work".to_string();
 
     let elems = Cells::from(vec![
         Cell {
@@ -85,11 +86,15 @@ fn main() {
     };
 
     let lib_work = Library {
-        name: "work".to_string(),
+        name: work_name.clone(),
         elements: Cells::from(vec![inv]),
     };
 
-    let design_inv = Design::new_with_prop(top_name.clone(), PropertyList(vec![Property::new_string("xczu3eg-sbva484-1-e")]));
+    let design_inv = Design::new_with_prop(
+        top_name.clone(),
+        CellRef::new(top_name.clone(), work_name.clone()),
+        PropertyList(vec![Property::new_string("part", "xczu3eg-sbva484-1-e")]),
+    );
 
     let libp = EdifElement::from(lib_prims);
     let libw = EdifElement::from(lib_work);
