@@ -17,7 +17,7 @@ pub fn match_check(incoming: String) -> i32 {
     counter
 }
 
-pub fn add_new_lines(input: String, level: u32) -> String {
+pub fn add_new_lines(input: String, level: u32, dospaces: bool) -> String {
     let mut output = String::new();
     let mut count = 0;
     let mut first_pass = false;
@@ -29,6 +29,12 @@ pub fn add_new_lines(input: String, level: u32) -> String {
                         output.pop();
                     }
                     output.push('\n');
+                    if dospaces {
+                        for _i in 0..count {
+                            output.push(' ');        
+                            output.push(' ');        
+                        }
+                    }
                     output.push(c);
                 } else {
                     output.push(c);

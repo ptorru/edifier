@@ -1,4 +1,5 @@
 use edifier::ast::*;
+use edifier::string_helpers::add_new_lines;
 
 fn main() {
     let elems = Cells::from(vec![
@@ -70,7 +71,7 @@ fn main() {
         elements: EdifElements::from(vec![libp, libw]),
     };
 
-    let edif_string = serde_sexpr::to_string(&edif).unwrap();
+    let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 3, true);
 
     println!("{}", edif_string);
 }

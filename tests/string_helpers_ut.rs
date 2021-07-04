@@ -3,7 +3,7 @@ use edifier::string_helpers::*;
 #[test]
 fn simple_new_lines() {
     let mut test = "Aqui ((hay espacios) estes) o no estes".to_string();
-    let actual = add_new_lines(test, 2);
+    let actual = add_new_lines(test, 2, false);
 
     assert_eq!(actual, "Aqui (\n(hay espacios) estes) o no estes")
 }
@@ -11,7 +11,7 @@ fn simple_new_lines() {
 #[test]
 fn onelevel_new_lines() {
     let mut test = "(Aqui ((())) ((())) estes o no estes)".to_string();
-    let actual = add_new_lines(test, 1);
+    let actual = add_new_lines(test, 1, false);
 
     assert_eq!(actual, "(Aqui\n((()))\n((())) estes o no estes)")
 }
@@ -19,7 +19,7 @@ fn onelevel_new_lines() {
 #[test]
 fn complex_new_lines() {
     let mut test = "(Aqui((() ))((())) estes o no estes)".to_string();
-    let actual = add_new_lines(test, 2);
+    let actual = add_new_lines(test, 2, true);
 
-    assert_eq!(actual, "(Aqui\n(\n(() ))\n(\n(())) estes o no estes)")
+    assert_eq!(actual, "(Aqui\n  (\n    (() ))\n  (\n    (())) estes o no estes)")
 }
