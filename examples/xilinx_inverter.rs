@@ -4,12 +4,13 @@ use edifier::string_helpers::add_new_lines;
 fn main() {
     let top_name = "inverter".to_string();
     let work_name = "work".to_string();
+    let netlist = "netlist".to_string();
 
     let elems = Cells::from(vec![
         Cell {
             name: "LUT2".to_string(),
             views: CellViews(vec![CellView {
-                name: "netlist".to_string(),
+                name: netlist.clone(),
                 interface: CellInterface(vec![
                     InterfacePort::new_output("O"),
                     InterfacePort::new_input("I0"),
@@ -21,7 +22,7 @@ fn main() {
         Cell {
             name: "INV".to_string(),
             views: CellViews(vec![CellView {
-                name: "netlist".to_string(),
+                name: netlist.clone(),
                 interface: CellInterface(vec![
                     InterfacePort::new_input("I"),
                     InterfacePort::new_output("O"),
@@ -40,7 +41,7 @@ fn main() {
 
     let yinst0 = ContentElement::from(ContentInstance {
         token: StringToken::new(yinst0_name.clone()),
-        viewref: "myview".to_string(),
+        viewref: netlist.clone(),
         cellref: CellRef::new("LUT2", "hdi_primitives"),
         properties: PropertyList(vec![Property::new_string("INIT", "4'h8")]),
     });
@@ -77,9 +78,9 @@ fn main() {
         views: CellViews(vec![CellView {
             name: top_name.clone(),
             interface: CellInterface(vec![
-                InterfacePort::new_input("neta_name".clone()),
-                InterfacePort::new_input("netb_name".clone()),
-                InterfacePort::new_output("nety_name".clone()),
+                InterfacePort::new_input(neta_name.clone()),
+                InterfacePort::new_input(netb_name.clone()),
+                InterfacePort::new_output(nety_name.clone()),
             ]),
             contents: CellContents(vec![yinst0, neta, netb, nety]),
         }]),
@@ -105,7 +106,7 @@ fn main() {
         elements: EdifElements::from(vec![libp, libw, desi]),
     };
 
-    let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 4, true);
-
+    // let edif_string = serde_sexpr::to_string(&edif).unwrap();
+    let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 5, true);
     println!("{}", edif_string);
 }
