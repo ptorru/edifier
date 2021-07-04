@@ -25,7 +25,7 @@ pub fn add_new_lines(input: String, level: u32, dospaces: bool) -> String {
         match c {
             '(' => {
                 if (count <= level) & (first_pass) {
-                    if output.chars().last().unwrap() == ' ' {
+                    if output.ends_with(' ') {
                         output.pop();
                     }
                     output.push('\n');
@@ -35,10 +35,8 @@ pub fn add_new_lines(input: String, level: u32, dospaces: bool) -> String {
                             output.push(' ');
                         }
                     }
-                    output.push(c);
-                } else {
-                    output.push(c);
                 }
+                output.push(c);
                 first_pass = true;
                 count += 1;
             }
