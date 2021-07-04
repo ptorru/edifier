@@ -248,6 +248,41 @@ impl InterfacePort {
     }
 }
 
+impl CellView {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        CellView {
+            name: name.as_ref().to_string(),
+            interface: CellInterface(Vec::new()),
+            contents: CellContents(Vec::new()),
+        }
+    }
+}
+
+impl Cell {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Cell {
+            name: name.as_ref().to_string(),
+            views: CellViews(Vec::new()),
+        }
+    }
+
+    pub fn new_with_views<S>(name: S, cells: CellViews) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Cell {
+            name: name.as_ref().to_string(),
+            views: cells,
+        }
+    }
+}
+
 impl Design {
     pub fn new<S>(name: S, cell: CellRef) -> Self
     where

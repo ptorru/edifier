@@ -141,7 +141,7 @@ pub struct CellView {
     pub contents: CellContents,
 }
 
-#[derive(Debug, Deref, DerefMut)]
+#[derive(Debug, Deref, DerefMut, From)]
 pub struct CellViews(pub Vec<CellView>);
 
 #[derive(Debug)]

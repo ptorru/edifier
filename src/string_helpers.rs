@@ -49,5 +49,6 @@ pub fn add_new_lines(input: String, level: u32, dospaces: bool) -> String {
             _ => output.push(c),
         }
     }
+    assert_eq!(0, match_check(output.clone()));
     output
 }

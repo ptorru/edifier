@@ -371,7 +371,9 @@ impl Serialize for Library {
         seq.serialize_element(&fixed1)?;
         seq.serialize_element(&fixed2)?;
         if !self.elements.is_empty() {
-            seq.serialize_element(&self.elements)?;
+            for elem in self.elements.iter() {
+                seq.serialize_element(&elem)?;
+            }
         }
         seq.end()
     }

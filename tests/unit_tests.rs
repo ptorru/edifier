@@ -57,13 +57,33 @@ fn edif_lib() {
     assert_eq!(match_check(actual), 0);
 }
 
+// Test 2.1: with library that has cells
+#[test]
+fn edif_lib_cells() {
+    let libelem = EdifElement::from(Library::new_with_cells(
+        "mylib",
+        Cells::from(vec![Cell::new_with_views(
+            "mycell",
+            CellViews::from(vec![CellView::new("myview")]),
+        )]),
+    ));
+
+    let ed = Edif {
+        name: "ed2".to_string(),
+        elements: EdifElements::from(vec![libelem]),
+    };
+
+    let actual = serde_sexpr::to_string(&ed).unwrap();
+
+    assert_eq!(actual,
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition )) (cell mycell (celltype GENERIC))))" );
+    assert_eq!(match_check(actual), 0);
+}
+
 // Test 3: cell with no elements
 #[test]
 fn cell_empty() {
-    let mycell = Cell {
-        name: "mycell".to_string(),
-        views: CellViews(Vec::new()),
-    };
+    let mycell = Cell::new("mycell");
     let actual = serde_sexpr::to_string(&mycell).unwrap();
     assert_eq!(actual, "(cell mycell (celltype GENERIC))");
     assert_eq!(match_check(actual), 0);

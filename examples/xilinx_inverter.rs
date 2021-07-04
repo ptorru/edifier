@@ -48,7 +48,7 @@ fn main() {
     let inv = Cell {
         name: "inverter".to_string(),
         views: CellViews(vec![CellView {
-            name: "netlist".to_string(),
+            name: "inverter".to_string(),
             interface: CellInterface(vec![
                 InterfacePort::new_input("a"),
                 InterfacePort::new_input("b"),
