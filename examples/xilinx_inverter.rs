@@ -71,7 +71,7 @@ fn main() {
         elements: EdifElements::from(vec![libp, libw]),
     };
 
-    let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 3, true);
+    let edif_string = add_new_lines(serde_sexpr::to_string(&edif).unwrap(), 4, true);
 
     println!("{}", edif_string);
 }

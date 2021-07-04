@@ -31,8 +31,8 @@ pub fn add_new_lines(input: String, level: u32, dospaces: bool) -> String {
                     output.push('\n');
                     if dospaces {
                         for _i in 0..count {
-                            output.push(' ');        
-                            output.push(' ');        
+                            output.push(' ');
+                            output.push(' ');
                         }
                     }
                     output.push(c);

@@ -21,5 +21,8 @@ fn complex_new_lines() {
     let mut test = "(Aqui((() ))((())) estes o no estes)".to_string();
     let actual = add_new_lines(test, 2, true);
 
-    assert_eq!(actual, "(Aqui\n  (\n    (() ))\n  (\n    (())) estes o no estes)")
+    assert_eq!(
+        actual,
+        "(Aqui\n  (\n    (() ))\n  (\n    (())) estes o no estes)"
+    )
 }
