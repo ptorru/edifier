@@ -271,3 +271,47 @@ impl Design {
         }
     }
 }
+
+impl Library {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Library {
+            name: name.as_ref().to_string(),
+            elements: Cells::from(Vec::new()),
+        }
+    }
+
+    pub fn new_with_cells<S>(name: S, cells: Cells) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Library {
+            name: name.as_ref().to_string(),
+            elements: cells,
+        }
+    }
+}
+
+impl Edif {
+    pub fn new<S>(name: S) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Edif {
+            name: name.as_ref().to_string(),
+            elements: EdifElements::from(Vec::new()),
+        }
+    }
+
+    pub fn new_with_elems<S>(name: S, elems: EdifElements) -> Self
+    where
+        S: AsRef<str>,
+    {
+        Edif {
+            name: name.as_ref().to_string(),
+            elements: elems,
+        }
+    }
+}

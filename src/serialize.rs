@@ -392,14 +392,14 @@ impl Serialize for Design {
     }
 }
 
-impl Serialize for EdifElements {
+impl Serialize for EdifElement {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         match self {
-            EdifElements::Library(lib) => lib.serialize(serializer),
-            EdifElements::Design(des) => des.serialize(serializer),
+            EdifElement::Library(lib) => lib.serialize(serializer),
+            EdifElement::Design(des) => des.serialize(serializer),
         }
     }
 }

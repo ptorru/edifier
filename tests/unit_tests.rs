@@ -48,7 +48,7 @@ fn match_check(incoming: String) -> i32 {
 fn empty_edif() {
     let ed = Edif {
         name: "ed".to_string(),
-        elements: Vec::new(),
+        elements: EdifElements::from(Vec::new()),
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
@@ -59,17 +59,13 @@ fn empty_edif() {
     assert_eq!(match_check(actual), 0);
 }
 
-// Test 2: single library element
+// Test 2: with library elements
 #[test]
 fn edif_lib() {
-    let lib = Library {
-        name: "mylib".to_string(),
-        elements: Vec::new(),
-    };
-    let libelem = EdifElements::from(lib);
+    let libelem = EdifElement::from(Library::new("mylib"));
     let ed = Edif {
         name: "ed2".to_string(),
-        elements: vec![libelem],
+        elements: EdifElements::from(vec![libelem]),
     };
     let actual = serde_sexpr::to_string(&ed).unwrap();
 

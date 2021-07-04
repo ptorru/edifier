@@ -150,10 +150,13 @@ pub struct Cell {
     pub views: CellViews,
 }
 
+#[derive(Debug, Deref, DerefMut, From, Serialize)]
+pub struct Cells(pub Vec<Cell>);
+
 #[derive(Debug)]
 pub struct Library {
     pub name: String,
-    pub elements: Vec<Cell>,
+    pub elements: Cells,
 }
 
 #[derive(Debug)]
@@ -164,13 +167,16 @@ pub struct Design {
 }
 
 #[derive(Debug, From)]
-pub enum EdifElements {
+pub enum EdifElement {
     Library(Library),
     Design(Design),
 }
 
+#[derive(Debug, Deref, DerefMut, From, Serialize)]
+pub struct EdifElements(pub Vec<EdifElement>);
+
 #[derive(Debug)]
 pub struct Edif {
     pub name: String,
-    pub elements: Vec<EdifElements>,
+    pub elements: EdifElements,
 }

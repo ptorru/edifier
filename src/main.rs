@@ -25,7 +25,7 @@ static DOFILE: bool = false;
 fn main() {
     let point = Edif {
         name: r#"dsp2"#.to_string(),
-        elements: Vec::new(),
+        elements: EdifElements::from(Vec::new()),
     };
 
     //point.libraries.push(mylib);
