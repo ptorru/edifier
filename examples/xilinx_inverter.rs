@@ -7,7 +7,7 @@ use edifier::string_helpers::add_new_lines;
 
 static DOFILE: bool = true;
 
-fn main() {
+fn inverter() -> Edif {
     let top_name = "inverter".to_string();
     let work_name = "work".to_string();
     let netlist = "netlist".to_string();
@@ -107,10 +107,14 @@ fn main() {
     let libw = EdifElement::from(lib_work);
     let desi = EdifElement::from(design_inv);
 
-    let edif = Edif {
+    Edif {
         name: top_name,
         elements: EdifElements::from(vec![libp, libw, desi]),
-    };
+    }
+}
+
+fn main() {
+    let edif = inverter();
 
     let serialized = serde_sexpr::to_string(&edif).unwrap();
 
@@ -133,5 +137,4 @@ fn main() {
         let edif_string = add_new_lines(serialized, 5, true);
         println!("{}", edif_string);
     };
-
 }
