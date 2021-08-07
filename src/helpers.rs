@@ -133,6 +133,16 @@ impl PortRef {
             instanceref: instref,
         }
     }
+
+    pub fn new_member_with_ref<S>(name: S, index: u32, instref: InstanceRef) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortRef {
+            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index: index}),
+            instanceref: instref,
+        }
+    }
 }
 
 impl ContentNet {
