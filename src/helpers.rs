@@ -156,7 +156,7 @@ impl ContentNet {
         }
     }
 
-    pub fn new_remaned<S>(from: S, to: S) -> Self
+    pub fn new_renamed<S>(from: S, to: S) -> Self
     where
         S: AsRef<str>,
     {
@@ -166,6 +166,19 @@ impl ContentNet {
                 to: to.as_ref().to_string(),
             }),
             portlist: PortList(Vec::new()),
+        }
+    }
+
+    pub fn new_renamed_with_ports<S>(from: S, to: S, ports: PortList) -> Self
+    where
+        S: AsRef<str>,
+    {
+        ContentNet {
+            token: StringToken::from(Rename {
+                from: from.as_ref().to_string(),
+                to: to.as_ref().to_string(),
+            }),
+            portlist: ports,
         }
     }
 }
