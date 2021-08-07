@@ -24,7 +24,7 @@ pub struct Rename {
 
 // TODO: probably create a module to allow these fields to
 //       be private
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct GenericRef {
     pub name: String,
     pub reference: String,
@@ -33,7 +33,7 @@ pub struct GenericRef {
 #[derive(Debug, From, Serialize)]
 pub struct LibraryRef(pub GenericRef);
 
-#[derive(Debug, From, Serialize)]
+#[derive(Debug, From, Serialize, Clone)]
 pub struct InstanceRef(pub GenericRef);
 
 #[derive(Debug, From)]
