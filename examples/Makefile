@@ -1,6 +1,6 @@
 OUT_DIR = $(abspath .)/out
 
-NAME = "xilinx_inverter"
+NAME ?= "xilinx_inverter"
 IMPL_FILE = $(NAME).v
 EDIF_FILE = $(NAME).edf
 NETLIST_FILE = $(NAME)_netlist.v
