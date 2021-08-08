@@ -53,7 +53,7 @@ fn edif_lib() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition ))))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition))))" );
     assert_eq!(match_check(actual), 0);
 }
 
@@ -76,7 +76,7 @@ fn edif_lib_cells() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition )) (cell mycell (celltype GENERIC) (view myview (viewtype NETLIST)))))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition)) (cell mycell (celltype GENERIC) (view myview (viewtype NETLIST)))))" );
     assert_eq!(match_check(actual), 0);
 }
 

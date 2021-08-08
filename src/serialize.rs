@@ -369,7 +369,8 @@ impl Serialize for Library {
     {
         let mut seq = serializer.serialize_seq(Some(3))?;
         let fixed1 = ("edifLevel", "0");
-        let fixed2 = ("technology", r#"(numberDefinition)"#);
+        //Little hack to make serialize to insert braces around numberDefinition.
+        let fixed2 = ("technology", ("numberDefinition",));  
 
         seq.serialize_element("Library")?;
         seq.serialize_element(&self.name)?;
