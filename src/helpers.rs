@@ -244,6 +244,7 @@ impl PortToken {
 
     // TODO: How to automatically define the type of len
     //       to be the same time as PortArray.length?
+    // TODO: turn len to u32?
     pub fn new_array<S>(from: S, to: S, len: i32) -> Self
     where
         S: AsRef<str>,
@@ -276,6 +277,26 @@ impl InterfacePort {
     {
         InterfacePort {
             token: PortToken::new(name),
+            direction: PortDirection::Output,
+        }
+    }
+
+    pub fn new_input_array<S>(from: S, to: S, len: i32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        InterfacePort {
+            token: PortToken::new_array(from, to, len),
+            direction: PortDirection::Input,
+        }
+    }
+
+    pub fn new_output_array<S>(from: S, to: S, len: i32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        InterfacePort {
+            token: PortToken::new_array(from, to, len),
             direction: PortDirection::Output,
         }
     }
