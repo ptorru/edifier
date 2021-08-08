@@ -311,6 +311,7 @@ impl CellView {
             name: name.as_ref().to_string(),
             interface: CellInterface(Vec::new()),
             contents: CellContents(Vec::new()),
+            properties: PropertyList::from(Vec::new()),
         }
     }
 }

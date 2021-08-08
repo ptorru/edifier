@@ -76,7 +76,7 @@ fn edif_lib_cells() {
     let actual = serde_sexpr::to_string(&ed).unwrap();
 
     assert_eq!(actual,
-        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition )) (cell mycell (celltype GENERIC))))" );
+        "(edif ed2 (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library mylib (edifLevel 0) (technology (numberDefinition )) (cell mycell (celltype GENERIC) (view myview (viewtype NETLIST)))))" );
     assert_eq!(match_check(actual), 0);
 }
 
@@ -92,11 +92,7 @@ fn cell_empty() {
 // Test 4: cell view with no elements
 #[test]
 fn cellview_empty() {
-    let myview = CellView {
-        name: "myview".to_string(),
-        interface: CellInterface(Vec::new()),
-        contents: CellContents(Vec::new()),
-    };
+    let myview = CellView::new("myview");
     let actual = serde_sexpr::to_string(&myview).unwrap();
     assert_eq!(actual, "(view myview (viewtype NETLIST))");
     assert_eq!(match_check(actual), 0);
@@ -190,7 +186,7 @@ fn net_empty() {
 //test 9.1: content net renamed
 #[test]
 fn net_renamed() {
-    let myinstance = ContentNet::new_remaned("u_u_sad_4", "u_u_sad[4]");
+    let myinstance = ContentNet::new_renamed("u_u_sad_4", "u_u_sad[4]");
     let actual = serde_sexpr::to_string(&myinstance).unwrap();
     assert_eq!(actual, r#"(net (rename u_u_sad_4 "u_u_sad[4]"))"#);
     assert_eq!(match_check(actual), 0);

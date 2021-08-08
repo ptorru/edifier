@@ -317,7 +317,8 @@ impl Serialize for CellView {
     {
         let len_interface = self.interface.len();
         let len_contents = self.contents.len();
-        let local_size = 2 + len_interface + len_contents;
+        let len_properties = self.properties.len();
+        let local_size = 2 + len_interface + len_contents + len_properties;
         let mut seq = serializer.serialize_seq(Some(local_size))?;
         let viewtype = ("viewtype", "NETLIST");
 
@@ -331,6 +332,10 @@ impl Serialize for CellView {
 
         if !self.contents.is_empty() {
             seq.serialize_element(&self.contents)?;
+        }
+
+        if !self.properties.is_empty() {
+            seq.serialize_element(&self.properties)?;
         }
 
         seq.end()

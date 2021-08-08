@@ -23,6 +23,7 @@ fn inverter() -> Edif {
                     InterfacePort::new_input("I1"),
                 ]),
                 contents: CellContents(Vec::new()),
+                properties: PropertyList::from(Vec::new()),
             }]),
         },
         Cell {
@@ -34,6 +35,7 @@ fn inverter() -> Edif {
                     InterfacePort::new_output("O"),
                 ]),
                 contents: CellContents(Vec::new()),
+                properties: PropertyList::from(Vec::new()),
             }]),
         },
     ]);
@@ -89,6 +91,7 @@ fn inverter() -> Edif {
                 InterfacePort::new_output(nety_name),
             ]),
             contents: CellContents(vec![yinst0, neta, netb, nety]),
+            properties: PropertyList::from(Vec::new()),
         }]),
     };
 

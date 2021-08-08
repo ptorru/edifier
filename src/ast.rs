@@ -48,7 +48,7 @@ pub struct Property {
     pub property: PropertyValue,
 }
 
-#[derive(Debug, Deref, DerefMut, From)]
+#[derive(Debug, Deref, DerefMut, From, Serialize)]
 pub struct PropertyList(pub Vec<Property>);
 
 #[derive(Debug)]
@@ -139,6 +139,7 @@ pub struct CellView {
     pub name: String,
     pub interface: CellInterface,
     pub contents: CellContents,
+    pub properties: PropertyList,
 }
 
 #[derive(Debug, Deref, DerefMut, From)]

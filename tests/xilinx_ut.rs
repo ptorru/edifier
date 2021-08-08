@@ -28,6 +28,7 @@ pub fn new_lut2() -> Cell {
         name: "netlist".to_string(),
         interface,
         contents: CellContents(Vec::new()),
+        properties: PropertyList::from(Vec::new()),
     };
     Cell {
         name: "LUT2".to_string(),
@@ -101,6 +102,7 @@ pub fn carry8() -> Cell {
         name: "netlist".to_string(),
         interface,
         contents: CellContents(Vec::new()),
+        properties: PropertyList::from(Vec::new()),
     };
     Cell {
         name: "CARRY8".to_string(),
