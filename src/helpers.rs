@@ -134,12 +134,22 @@ impl PortRef {
         }
     }
 
+    pub fn new_member<S>(name: S, index: u32) -> Self
+    where
+        S: AsRef<str>,
+    {
+        PortRef {
+            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index}),
+            instanceref: InstanceRef::new(""),
+        }
+    }
+
     pub fn new_member_with_ref<S>(name: S, index: u32, instref: InstanceRef) -> Self
     where
         S: AsRef<str>,
     {
         PortRef {
-            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index: index}),
+            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index}),
             instanceref: instref,
         }
     }
