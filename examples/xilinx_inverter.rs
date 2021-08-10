@@ -12,6 +12,7 @@ fn main() {
     let edif = inverter();
 
     let serialized = serde_sexpr::to_string(&edif).unwrap();
+    let edif_string = add_new_lines(serialized, 5, true);
 
     if DOFILE {
         let path = Path::new("xilinx_inverter.edf");
@@ -23,13 +24,11 @@ fn main() {
             Ok(file) => file,
         };
 
-        match file.write_all(serialized.as_bytes()) {
+        match file.write_all(edif_string.as_bytes()) {
             Err(why) => panic!("couldn't write to {}: {}", display, why),
             Ok(_) => println!("successfully wrote to {}", display),
         }
     } else {
-        // let edif_string = serde_sexpr::to_string(&edif).unwrap();
-        let edif_string = add_new_lines(serialized, 5, true);
         println!("{}", edif_string);
     };
 }

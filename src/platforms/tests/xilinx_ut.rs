@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 use edifier::ast::*;
+use edifier::string_helpers::match_check;
 use platforms::xilinx::*;
 
 // Test 1: we should get a lut2 element
@@ -94,5 +95,19 @@ fn simple_array() {
         actual,
         r#"(cell CARRY8 (celltype GENERIC) (view netlist (viewtype NETLIST) (interface (port CI (direction INPUT)) (port CI_TOP (direction INPUT)) (port (array (rename CO "CO[7:0]") 8) (direction OUTPUT)) (port (array (rename O "O[7:0]") 8) (direction OUTPUT)) (port (array (rename DI "DI[7:0]") 8) (direction INPUT)) (port (array (rename S "S[7:0]") 8) (direction INPUT)))))"#
     );
-    //assert_eq!(match_check(actual), 0);
+    assert_eq!(match_check(actual), 0);
+}
+
+// Test 5: Testing the inverter example
+#[test]
+fn test_inverter_top() {
+    let edif = inverter();
+
+    let actual = serde_sexpr::to_string(&edif).unwrap();
+
+    assert_eq!(
+        actual,
+        r#"(edif inverter (edifversion 2 0 0) (edifLevel 0) (keywordmap (keywordlevel 0)) (Library hdi_primitives (edifLevel 0) (technology (numberDefinition)) (cell LUT2 (celltype GENERIC) (view netlist (viewtype NETLIST) (interface (port O (direction OUTPUT)) (port I0 (direction INPUT)) (port I1 (direction INPUT))))) (cell INV (celltype GENERIC) (view netlist (viewtype NETLIST) (interface (port I (direction INPUT)) (port O (direction OUTPUT)))))) (Library work (edifLevel 0) (technology (numberDefinition)) (cell inverter (celltype GENERIC) (view inverter (viewtype NETLIST) (interface (port a (direction INPUT)) (port b (direction INPUT)) (port y (direction OUTPUT))) (contents (instance y_INST_0 (viewref netlist (cellref LUT2 (libraryref hdi_primitives))) (property INIT (string "4'h8"))) (net a (joined (portref I0 (instanceref y_INST_0)) (portref a))) (net b (joined (portref I1 (instanceref y_INST_0)) (portref b))) (net y (joined (portref O (instanceref y_INST_0)) (portref y))))))) (design inverter (cellref inverter (libraryref work)) (property part (string "xczu3eg-sbva484-1-e"))))"#
+    );
+    assert_eq!(match_check(actual), 0);
 }
