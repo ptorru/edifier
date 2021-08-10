@@ -139,7 +139,10 @@ impl PortRef {
         S: AsRef<str>,
     {
         PortRef {
-            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index}),
+            token: PortRefToken::Member(PortMember {
+                name: name.as_ref().to_string(),
+                index,
+            }),
             instanceref: InstanceRef::new(""),
         }
     }
@@ -149,7 +152,10 @@ impl PortRef {
         S: AsRef<str>,
     {
         PortRef {
-            token: PortRefToken::Member(PortMember{name: name.as_ref().to_string(), index}),
+            token: PortRefToken::Member(PortMember {
+                name: name.as_ref().to_string(),
+                index,
+            }),
             instanceref: instref,
         }
     }
