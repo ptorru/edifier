@@ -10,7 +10,8 @@ edition = "2018"
 [dependencies]
 edifier = { path = "src/edifier" }
 platforms = { path = "src/platforms" }
-
+serde = { version = "1.0", features = ["derive", "rc"] }
+serde_sexpr = "0.1.0"
 
 [workspace]
 members = [
