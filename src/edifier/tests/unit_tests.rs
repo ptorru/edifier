@@ -98,6 +98,16 @@ fn cellview_empty() {
     assert_eq!(match_check(actual), 0);
 }
 
+// Test 4.1: cell view with properties
+#[test]
+fn cellview_w_props() {
+    let mut myview = CellView::new("myview");
+    myview.properties.push(Property::new_string("usability", "very_high_please"));
+    let actual = serde_sexpr::to_string(&myview).unwrap();
+    assert_eq!(actual, r#"(view myview (viewtype NETLIST) (property usability (string "very_high_please")))"#);
+    assert_eq!(match_check(actual), 0);
+}
+
 // Test 5: interface with no elements
 #[test]
 fn interface_empty() {

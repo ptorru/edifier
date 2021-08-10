@@ -335,7 +335,9 @@ impl Serialize for CellView {
         }
 
         if !self.properties.is_empty() {
-            seq.serialize_element(&self.properties)?;
+            for prop in self.properties.iter() {
+                seq.serialize_element(&prop)?;
+            }
         }
 
         seq.end()
