@@ -61,7 +61,7 @@ impl Serialize for PropertyValue {
             PropertyValue::String(val) => {
                 seq.serialize_element(&"string".to_string())?;
                 let mut with_quotes = r#"""#.to_string();
-                with_quotes.push_str(&val);
+                with_quotes.push_str(val);
                 with_quotes.push_str(&r#"""#.to_string());
                 seq.serialize_element(&with_quotes)?;
                 seq.end()
