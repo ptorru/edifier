@@ -378,7 +378,7 @@ pub fn dsp() -> Edif {
     let gnd_name = "GND".to_string();
     let gnd_ref = InstanceRef::new(gnd_name.clone());
     let gnd = ContentElement::from(ContentInstance {
-        token: StringToken::new(gnd_name.clone()),
+        token: StringToken::new(gnd_name),
         viewref: netlist.clone(),
         cellref: CellRef::new("GND", "hdi_primitives"),
         properties: PropertyList(vec![]),
@@ -387,7 +387,7 @@ pub fn dsp() -> Edif {
     let gnd1_name = "GND_1".to_string();
     let gnd1_ref = InstanceRef::new(gnd1_name.clone());
     let gnd1 = ContentElement::from(ContentInstance {
-        token: StringToken::new(gnd1_name.clone()),
+        token: StringToken::new(gnd1_name),
         viewref: netlist.clone(),
         cellref: CellRef::new("GND", "hdi_primitives"),
         properties: PropertyList(vec![]),
@@ -396,7 +396,7 @@ pub fn dsp() -> Edif {
     let vcc_name = "VCC".to_string();
     let vccref = InstanceRef::new(vcc_name.clone());
     let vcc = ContentElement::from(ContentInstance {
-        token: StringToken::new(vcc_name.clone()),
+        token: StringToken::new(vcc_name),
         viewref: netlist.clone(),
         cellref: CellRef::new("VCC", "hdi_primitives"),
         properties: PropertyList(vec![]),
@@ -405,7 +405,7 @@ pub fn dsp() -> Edif {
     let vcc1_name = "VCC_1".to_string();
     let vcc1_ref = InstanceRef::new(vcc1_name.clone());
     let vcc1 = ContentElement::from(ContentInstance {
-        token: StringToken::new(vcc1_name.clone()),
+        token: StringToken::new(vcc1_name),
         viewref: netlist.clone(),
         cellref: CellRef::new("VCC", "hdi_primitives"),
         properties: PropertyList(vec![]),
@@ -414,8 +414,8 @@ pub fn dsp() -> Edif {
     let dsp_name = "res".to_string();
     let dspref = InstanceRef::new(dsp_name.clone());
     let dspinst = ContentElement::from(ContentInstance {
-        token: StringToken::new(dsp_name.clone()),
-        viewref: netlist.clone(),
+        token: StringToken::new(dsp_name),
+        viewref: netlist,
         cellref: CellRef::new("DSP48E2", "hdi_primitives"),
         properties: PropertyList(vec![
             Property::new_string("XORSIMD", "XOR24_48_96"),
@@ -561,7 +561,7 @@ pub fn dsp() -> Edif {
             PortRef::new_with_ref("CEM", dspref.clone()),
             PortRef::new_with_ref("CEP", dspref.clone()),
             PortRef::new_with_ref("CLK", dspref.clone()),
-            PortRef::new_with_ref("G", gnd_ref.clone()),
+            PortRef::new_with_ref("G", gnd_ref),
             PortRef::new_member_with_ref("INMODE", 4, dspref.clone()),
             PortRef::new_member_with_ref("INMODE", 3, dspref.clone()),
             PortRef::new_member_with_ref("INMODE", 2, dspref.clone()),
@@ -642,13 +642,13 @@ pub fn dsp() -> Edif {
         PortList(vec![
             PortRef::new_member_with_ref("OPMODE", 8, dspref.clone()),
             PortRef::new_member_with_ref("OPMODE", 6, dspref.clone()),
-            PortRef::new_with_ref("P", vccref.clone()),
+            PortRef::new_with_ref("P", vccref),
         ]),
     ));
 
     let nety_name = "GND_2".to_string();
     let gnd2 = ContentElement::from(ContentNet::new_with_ports(
-        nety_name.clone(),
+        nety_name,
         PortList(vec![
             PortRef::new_member_with_ref("D", 26, dspref.clone()),
             PortRef::new_member_with_ref("D", 16, dspref.clone()),
@@ -677,13 +677,13 @@ pub fn dsp() -> Edif {
             PortRef::new_member_with_ref("D", 19, dspref.clone()),
             PortRef::new_member_with_ref("D", 18, dspref.clone()),
             PortRef::new_member_with_ref("D", 17, dspref.clone()),
-            PortRef::new_with_ref("G", gnd1_ref.clone()),
+            PortRef::new_with_ref("G", gnd1_ref),
         ]),
     ));
 
     let vcc2_name = "VCC_2".to_string();
     let vcc2 = ContentElement::from(ContentNet::new_with_ports(
-        vcc2_name.clone(),
+        vcc2_name,
         PortList(vec![
             PortRef::new_member_with_ref("C", 47, dspref.clone()),
             PortRef::new_member_with_ref("C", 37, dspref.clone()),
@@ -733,7 +733,7 @@ pub fn dsp() -> Edif {
             PortRef::new_member_with_ref("C", 40, dspref.clone()),
             PortRef::new_member_with_ref("C", 39, dspref.clone()),
             PortRef::new_member_with_ref("C", 38, dspref.clone()),
-            PortRef::new_with_ref("P", vcc1_ref.clone()),
+            PortRef::new_with_ref("P", vcc1_ref),
         ]),
     ));
 
@@ -925,7 +925,7 @@ pub fn dsp() -> Edif {
         "y_7_",
         "y[7]",
         PortList(vec![
-            PortRef::new_member_with_ref("P", 40, dspref.clone()),
+            PortRef::new_member_with_ref("P", 40, dspref),
             PortRef::new_member("y", 0),
         ]),
     ));
