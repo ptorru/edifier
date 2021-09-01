@@ -1,12 +1,10 @@
-use std::path::Path;
+use edifier::string_helpers::add_new_lines;
+use platforms::xilinx::inverter;
 use std::fs::File;
 use std::io::Write;
-use platforms::xilinx::inverter;
-use edifier::string_helpers::add_new_lines;
-
+use std::path::Path;
 
 static DOFILE: bool = true;
-
 
 fn main() {
     let edif = inverter();

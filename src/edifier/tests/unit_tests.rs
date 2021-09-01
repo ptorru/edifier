@@ -102,9 +102,14 @@ fn cellview_empty() {
 #[test]
 fn cellview_w_props() {
     let mut myview = CellView::new("myview");
-    myview.properties.push(Property::new_string("usability", "very_high_please"));
+    myview
+        .properties
+        .push(Property::new_string("usability", "very_high_please"));
     let actual = serde_sexpr::to_string(&myview).unwrap();
-    assert_eq!(actual, r#"(view myview (viewtype NETLIST) (property usability (string "very_high_please")))"#);
+    assert_eq!(
+        actual,
+        r#"(view myview (viewtype NETLIST) (property usability (string "very_high_please")))"#
+    );
     assert_eq!(match_check(actual), 0);
 }
 
