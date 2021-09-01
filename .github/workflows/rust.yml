@@ -26,4 +26,4 @@ jobs:
       run: cargo test --verbose
     - name: Run examples
       run: cargo run --example xilinx_inverter
-      run: cargo run --example xilinx_multiplier
+           cargo run --example xilinx_multiplier
